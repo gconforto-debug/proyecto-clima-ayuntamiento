@@ -1,4 +1,3 @@
-# Importe función de validación
 from validacion import validar_registro
 
 def capturar_datos():
