@@ -1,5 +1,3 @@
-from validacion import validar_registro
-
 def capturar_datos():
     """
     EL RECEPCIONISTA: Pide los datos por consola y los devuelve en un diccionario organizado.
@@ -13,7 +11,7 @@ def capturar_datos():
     # 2. CAPTURA Y CONVERSIÓN NUMÉRICA
     try:
         # Se usan los nombres de variables definidas por el equipo
-        temperatura = float(input("Temperatura (°C): "))
+        temperatura = float(input("Temperatura (°C): ")) 
         humedad = float(input("Humedad (%): "))
         viento = float(input("Viento (km/h): "))
 
