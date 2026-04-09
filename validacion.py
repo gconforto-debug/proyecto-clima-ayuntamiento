@@ -1,49 +1,69 @@
-# Validación de datos del dataset de clima 
-#Este código valida los datos del dataset de clima, verificando que las fechas sean correctas, que las zonas sean válidas, y que los valores de temperatura, humedad y viento estén dentro de rangos razonables. También detecta filas duplicadas basándose en la combinación de fecha y zona.
-#Abre el archivo csv, recorre fila por fila de cada registro, comprueba que los datos sean válidos e imprime errores
-import pandas as pd
+from datetime import datetime
 
-df = pd.read_csv("clima_dataset.csv")  #Abre el archivo csv y lo carga en un DataFrame 
 
-zonas_validas = ["Centro", "Norte", "Sur", "Este", "Oeste"]   #Definimos la lista de zonas válidas
+def validar_registro(registro):
+    """
+    Valida un registro climático recibido en forma de diccionario.
 
-for i in range(len(df)):    #Recorremos cada una de las filas que tenga el DataFrame
+    Parámetro:
+        registro (dict): Diccionario con las claves:
+            - fecha
+            - zona
+            - temperatura
+            - humedad
+            - viento
 
-    # FECHA
-    fecha = df.loc[i, "fecha"]    #Obtenemos el valor de la columna "fecha" para la fila actual
+    Devuelve:
+        list: Lista de errores encontrados.
+              Si la lista está vacía, el registro es válido.
+    """
 
-    if pd.isna(fecha):     #Si el valor de la fecha estávacío, se imprime un mensaje de error indicando que la fecha está vacía
-        print(f"Fila {i+2}: fecha vacía")
+    errores = []
+    zonas_validas = ["Centro", "Norte", "Sur", "Este", "Oeste"]
+
+    fecha = str(registro.get("fecha", "")).strip()
+    zona = str(registro.get("zona", "")).strip().title()
+    temperatura = registro.get("temperatura")
+    humedad = registro.get("humedad")
+    viento = registro.get("viento")
+
+    # VALIDACIÓN DE FECHA
+    if fecha == "":
+        errores.append("Fecha vacía")
     else:
         try:
-            pd.to_datetime(fecha, format="%Y-%m-%d")    #Compueba si la fecha tiene el formato correcto (YYYY-MM-DD) y si es válida
+            datetime.strptime(fecha, "%Y-%m-%d")
+        except ValueError:
+            errores.append("Fecha incorrecta (formato o no existe)")
 
-        except:
-            print(f"Fila {i+2}: fecha incorrecta")
+    # VALIDACIÓN DE ZONA
+    if zona == "":
+        errores.append("Zona vacía")
+    elif zona not in zonas_validas:
+        errores.append("Zona no válida")
 
-    # ZONA
-    zona = df.loc[i, "zona"]    #Obtenemos el valor de la columna "zona" para la fila actual
+    # VALIDACIÓN DE TEMPERATURA
+    try:
+        temperatura = float(temperatura)
+        if temperatura < -20 or temperatura > 60:
+            errores.append("Temperatura fuera de rango (-20 a 60)")
+    except (TypeError, ValueError):
+        errores.append("Temperatura no válida")
 
-    if pd.isna(zona) or zona == "":   #si la celda de la zona esta vacía
-        print(f"Fila {i+2}: zona vacía")
-    elif zona not in zonas_validas:      #si la zona no es válida
-        print(f"Fila {i+2}: zona incorrecta")
+    # VALIDACIÓN DE HUMEDAD
+    try:
+        humedad = float(humedad)
+        if humedad < 0 or humedad > 100:
+            errores.append("Humedad fuera de rango (0 a 100)")
+    except (TypeError, ValueError):
+        errores.append("Humedad no válida")
 
-    # TEMPERATURA
-    if df.loc[i, "temperatura"] < -20 or df.loc[i, "temperatura"] > 60:  #si la celda de temperatura tiene un valor menor a -20 o mayor a 60, se imprime un mensaje de error indicando que la temperatura es incorrecta
-        print(f"Fila {i+2}: temperatura incorrecta")
+    # VALIDACIÓN DE VIENTO
+    try:
+        viento = float(viento)
+        if viento < 0 or viento > 150:
+            errores.append("Viento fuera de rango (0 a 150)")
+    except (TypeError, ValueError):
+        errores.append("Viento no válido")
 
-    # HUMEDAD
-    if df.loc[i, "humedad"] < 0 or df.loc[i, "humedad"] > 100:    #si la celda de humedad tiene un valor menor a 0 o mayor a 100, se imprime un mensaje de error indicando que la humedad es incorrecta
-        print(f"Fila {i+2}: humedad incorrecta")
-
-    # VIENTO
-    if df.loc[i, "viento"] < 0 or df.loc[i, "viento"] > 150:  #si la celda de viento tiene un valor menor a 0 o mayor a 150, se imprime un mensaje de error indicando que el viento es incorrecto   
-        print(f"Fila {i+2}: viento incorrecto")
-
-# DUPLICADOS 
-duplicados = df.duplicated(subset=["fecha", "zona"], keep=False)   #busca las filas duplicadas, teniendo en cuenta solo las columnas fecha y hora y las marca todas
-
-for i in range(len(df)):
-    if duplicados[i]:
-        print(f"Fila {i+2}: duplicado")
+    return errores
