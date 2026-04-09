@@ -58,3 +58,23 @@ def guardar_en_csv(registro_dict):
     except Exception as e:
         print(f"\n❌ Ocurrió un error inesperado al guardar: {e}")
         return False
+    
+    def consultar_por_zona(zona_buscada):
+    """
+    NUEVA FUNCIÓN: Filtra los datos del CSV por zona geográfica.
+    """
+    resultados = []
+    if not os.path.exists(ARCHIVO):
+        return resultados
+
+    try:
+        with open(ARCHIVO, "r", encoding="utf-8") as f:
+            lector = csv.DictReader(f)
+            for fila in lector:
+                # Normalizamos la zona para que la búsqueda sea efectiva
+                if fila["zona"].strip().title() == zona_buscada.strip().title():
+                    resultados.append(fila)
+        return resultados
+    except Exception as e:
+        print(f"❌ Error al consultar los datos: {e}")
+        return []
