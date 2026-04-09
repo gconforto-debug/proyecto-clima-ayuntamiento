@@ -8,10 +8,16 @@ def test_alerta_calor_extremo():
     assert any("ALERTA ROJA" in s for s in resultado)
 
 def test_alerta_viento_fuerte():
-    """Valida la detección de viento fuerte > 70 km/h"""
-    datos = {'temperatura': 20, 'viento': 85, 'humedad': 50}
+    """Valida la detección de viento fuerte >= 90 km/h"""
+    datos = {'temperatura': 20, 'viento': 90, 'humedad': 50}
     resultado = evaluar_alertas(datos)
     assert any("VIENTO" in s for s in resultado)
+
+def test_alerta_temperatura_extrema():
+    """Valida la detección de calor extremo para temperaturas muy altas"""
+    datos = {'temperatura': 100, 'viento': 10, 'humedad': 30}
+    resultado = evaluar_alertas(datos)
+    assert any("ALERTA ROJA" in s for s in resultado)
 
 def test_alerta_humedad_extrema():
     """Valida la detección de humedad extrema >= 90%"""
@@ -31,6 +37,7 @@ if __name__ == "__main__":
     try:
         test_alerta_calor_extremo()
         test_alerta_viento_fuerte()
+        test_alerta_temperatura_extrema()
         test_alerta_humedad_extrema()
         test_datos_invalidos()
         print("\n¡Pruebas superadas con éxito! ✅")
