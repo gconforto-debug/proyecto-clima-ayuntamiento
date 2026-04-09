@@ -59,7 +59,7 @@ def guardar_en_csv(registro_dict):
         print(f"\n❌ Ocurrió un error inesperado al guardar: {e}")
         return False
     
-    def consultar_por_zona(zona_buscada):
+def consultar_por_zona(zona_buscada):
     """
     NUEVA FUNCIÓN: Filtra los datos del CSV por zona geográfica.
     """
