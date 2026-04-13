@@ -1,16 +1,12 @@
 import registro
 import validacion
 import alertas
-<<<<<<< HEAD
 import datos_csv
-=======
-from datos_csv import GestorDatosClima
->>>>>>> feature/main
 import auth
 
 def menu_principal():
     # 1. Se instancia el gestor (Nivel Avanzado - OOP)
-    gestor = GestorDatosClima()
+    gestor = datos_csv.GestorDatosClima()
     
     while True:
         print("\n" + "="*30)
@@ -75,10 +71,7 @@ def menu_principal():
         else:
             print("\n⚠️ Opción no válida. Intente de nuevo.")
 
-<<<<<<< HEAD
-if __name__ == "__main__":
-=======
-if _name_ == "_main_":
->>>>>>> feature/main
+if __name__ == "__main__": 
+    # 2. Se eliminaron espacios extra dentro de "__main__"
     if auth.solicitar_acceso():
         menu_principal()
