@@ -66,6 +66,18 @@ Hemos blindado la aplicación con un sistema de gestión de identidades robusto:
 
 - **Tests Unitarios**: Integración de la carpeta `/tests` con pruebas automatizadas mediante `pytest`. Esto garantiza que cualquier cambio en la lógica de alertas o validación no rompa el sistema (Integración Continua).
 
+### **📈 Arquitectura Avanzada y Análisis de Datos (Implementado)**
+
+Hemos elevado el nivel técnico del proyecto integrando herramientas de análisis profesional y un diseño de software basado en estándares industriales:
+
+- **Implementación OOP**: Migración de funciones aisladas a una arquitectura basada en clases mediante el módulo `datos_csv.py`. La clase `GestorDatosClima` centraliza el manejo del dataset, mejorando el encapsulamiento y facilitando el mantenimiento del código.
+- **Análisis con Pandas**: Integración de la librería líder en ciencia de datos para procesar el historial climático. El sistema ahora genera resúmenes estadísticos automáticos por zona que incluyen:
+    - 🌡️ Medias de temperatura y humedad.
+    - 💨 Detección de rachas máximas de viento.
+    - 📊 Conteo de registros para asegurar la representatividad de la muestra.
+- **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas. Esto garantiza la integridad de los archivos CSV, evitando que se corrompan al fusionar ramas con diferentes datos.
+- **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo de excepciones, asegurando que la aplicación sea estable incluso ante archivos con formatos inconsistentes.
+
 ---
 
 _Este proyecto ha sido desarrollado como parte del Sprint 1 para demostrar competencias en Python modular, manejo de archivos, validación de datos y control de versiones con Git._
