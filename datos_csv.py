@@ -3,7 +3,7 @@ import os
 import pandas as pd # Importante para las estadísticas
 
 class GestorDatosClima:
-    def _init_(self):
+    def __init__(self):
         # Se mantienen las configuraciones fijas como atributos de clase
         self.ARCHIVO = "clima_dataset.csv"
         self.COLUMNAS = ["fecha", "zona", "temperatura", "humedad", "viento"]
