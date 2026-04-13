@@ -1,20 +1,26 @@
-import datos_csv  # Importamos el módulo completo
+import pytest
+import os
+# Importamos directamente porque 'python -m' se encarga de encontrarlos
+from datos_csv import guardar_en_csv, ARCHIVO
 
-def test_guardar_registro_clase():
-    # 1. Creamos el objeto (instancia) de la clase que hizo tu compañero
-    gestor = datos_csv.GestorDatosClima()
+def test_escritura_archivo():
+    """Prueba que el archivo se crea y guarda datos."""
+    # 1. Preparación: Limpiamos si existe un archivo de pruebas previo
+    if os.path.exists(ARCHIVO):
+        os.remove(ARCHIVO)
     
-    # 2. Preparamos un registro de prueba
+    # 2. Datos de prueba
     registro = {
-        "fecha": "2026-04-13",
-        "zona": "Norte",
-        "temperatura": 25.0,
-        "humedad": 60,
-        "viento": 15
+        "fecha": "2026-04-08", 
+        "zona": "Test", 
+        "temperatura": 20, 
+        "humedad": 50, 
+        "viento": 10
     }
     
-    # 3. Llamamos al método usando el objeto 'gestor'
-    resultado = gestor.guardar_en_csv(registro)
+    # 3. Ejecución
+    guardar_en_csv(registro)
     
-    # 4. Verificamos que devuelva True
-    assert resultado is True
+    # 4. Verificación (Los "assert" son las preguntas del examen)
+    assert os.path.exists(ARCHIVO) == True
+    assert os.path.getsize(ARCHIVO) > 0
