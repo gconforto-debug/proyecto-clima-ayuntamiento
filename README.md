@@ -47,9 +47,24 @@ Se ha implementado una política de **"Código Global, Datos Locales"**:
 
 ---
 
-## ⏭️ Próximas Mejoras (Roadmap Sprint 2)
+## 📈 Evolución y Mejoras Continuas
 
-Tras consolidar la base del sistema, las siguientes actualizaciones se centrarán en el análisis avanzado y la experiencia de usuario:
+Tras completar el **Sprint 1**, seguimos trabajando en el proyecto para hacerlo más seguro y profesional. Nuestro objetivo es mejorar la experiencia del usuario y fortalecer el código para que sea más robusto antes de la entrega final.
+
+A continuación, se detallan las funcionalidades que ya han sido integradas con éxito y las líneas de mejora que iremos implementando de cara a la entrega final:
+
+### **🛡️ Seguridad y Control de Acceso (Implementado)**
+
+Hemos blindado la aplicación con un sistema de gestión de identidades robusto:
+
+- **Módulo `auth.py`**: Gestión centralizada de registros e inicios de sesión.
+- **Hashing SHA-256**: Las contraseñas se procesan mediante algoritmos criptográficos, asegurando que solo se almacenen huellas digitales y nunca texto plano.
+- **Privacidad en Consola**: Uso de `getpass` para que las credenciales sean invisibles durante la escritura.
+- **Acceso Dual**: Capacidad de login tradicional y prototipo de integración con Google (OAuth).
+
+### **🧪 Calidad de Software (Implementado)**
+
+- **Tests Unitarios**: Integración de la carpeta `/tests` con pruebas automatizadas mediante `pytest`. Esto garantiza que cualquier cambio en la lógica de alertas o validación no rompa el sistema (Integración Continua).
 
 ---
 
