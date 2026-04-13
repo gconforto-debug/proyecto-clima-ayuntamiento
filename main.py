@@ -2,6 +2,7 @@ import registro
 import validacion
 import alertas
 import datos_csv
+import auth
 
 def menu_principal():
     while True:
@@ -53,4 +54,5 @@ def menu_principal():
             print("\n⚠️ Opción no válida. Intente de nuevo.")
 
 if __name__ == "__main__":
-    menu_principal()
+    if auth.solicitar_acceso():
+        menu_principal()
