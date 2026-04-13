@@ -6,7 +6,7 @@ def capturar_datos():
 
     # 1. CAPTURA DE TEXTO
     fecha = input("Fecha (AAAA-MM-DD): ")
-    zona = input("Zona de la ciudad (Norte, Sur, Este, Oeste): ")
+    zona = input("Zona de la ciudad (Norte, Sur, Centro,Este, Oeste): ")
 
     # 2. CAPTURA Y CONVERSIÓN NUMÉRICA
     try:
