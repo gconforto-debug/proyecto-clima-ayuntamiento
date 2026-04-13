@@ -15,7 +15,7 @@ def validar_registro(registro):
 
     Devuelve:
         list: Lista de errores encontrados.
-              Si la lista está vacía, el registro es válido.
+        Si la lista está vacía, el registro es válido.
     """
 
     errores = []
