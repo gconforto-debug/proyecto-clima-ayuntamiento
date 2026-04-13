@@ -34,19 +34,20 @@ def validar_registro(registro):
         try:
             datetime.strptime(fecha, "%Y-%m-%d")
         except ValueError:
-            errores.append("Fecha incorrecta (formato o no existe)")
+            errores.append("Fecha incorrecta. Usa formato YYYY-MM-DD (ej: 2026-11-13) y comprueba que la fecha corresponda al día de hoy.")
 
     # VALIDACIÓN DE ZONA
     if zona == "":
         errores.append("Zona vacía")
     elif zona not in zonas_validas:
-        errores.append("Zona no válida")
+        errores.append(f"Zona no válida. Zonas permitidas: {', '.join(zonas_validas)}")
+
 
     # VALIDACIÓN DE TEMPERATURA
     try:
         temperatura = float(temperatura)
         if temperatura < -20 or temperatura > 60:
-            errores.append("Temperatura fuera de rango (-20 a 60)")
+            errores.append("Temperatura fuera de rango.Introduce un valor entre -20 y 60)")
     except (TypeError, ValueError):
         errores.append("Temperatura no válida")
 
@@ -54,7 +55,7 @@ def validar_registro(registro):
     try:
         humedad = float(humedad)
         if humedad < 0 or humedad > 100:
-            errores.append("Humedad fuera de rango (0 a 100)")
+            errores.append("Humedad fuera de rango. Introduce un valor entre 0 y 100)")
     except (TypeError, ValueError):
         errores.append("Humedad no válida")
 
@@ -62,7 +63,7 @@ def validar_registro(registro):
     try:
         viento = float(viento)
         if viento < 0 or viento > 150:
-            errores.append("Viento fuera de rango (0 a 150)")
+            errores.append("Viento fuera de rango. Introduce un valor entre 0 y 150km/h)")
     except (TypeError, ValueError):
         errores.append("Viento no válido")
 
