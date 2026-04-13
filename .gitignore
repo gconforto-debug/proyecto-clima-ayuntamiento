@@ -98,6 +98,10 @@ ipython_config.py
 #   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
 #   This is especially recommended for binary packages to ensure reproducibility, and is more
 #   commonly ignored for libraries.
+
+# Virtual environments
+venv/
+.venv/
 #uv.lock
 
 # poetry
@@ -206,5 +210,5 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# Datos generados por pruebas o ejecuciones locales
-clima_dataset.csv
+# Datos generados por pruebas o ejecuciones locales 
+*.csv
