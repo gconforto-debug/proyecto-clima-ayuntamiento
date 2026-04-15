@@ -28,12 +28,12 @@
 
 SkyCast ofrece un conjunto de características clave para una gestión climática municipal eficiente:
 
--   **Monitorización Climática en Tiempo Real:** Captura y procesamiento continuo de datos ambientales como temperatura, humedad y velocidad del viento.
--   **Sistema de Alertas Inteligente:** Detección automática y priorizada de situaciones de riesgo crítico (ej. calor extremo, heladas, rachas de viento peligrosas, humedad extrema). La lógica de exclusión en `alertas.py` garantiza que solo se emita la alerta más relevante por categoría.
--   **Gestión de Datos Robusta:** Persistencia segura y eficiente de los registros climáticos en formato CSV, con control de duplicados y manejo de errores de permisos.
--   **Análisis y Estadísticas Avanzadas:** Generación de informes estadísticos detallados por zona geográfica, proporcionando insights valiosos para la planificación.
--   **Control de Acceso Seguro:** Sistema de autenticación de usuarios para garantizar la integridad y privacidad del sistema.
--   **Interfaz de Usuario Dual:** Acceso a través de una interfaz de línea de comandos (CLI) y una moderna Interfaz de Visualización Dinámica basada en web.
+- **Monitorización Climática en Tiempo Real:** Captura y procesamiento continuo de datos ambientales como temperatura, humedad y velocidad del viento.
+- **Sistema de Alertas Inteligente:** Detección automática y priorizada de situaciones de riesgo crítico (ej. calor extremo, heladas, rachas de viento peligrosas, humedad extrema). La lógica de exclusión en `alertas.py` garantiza que solo se emita la alerta más relevante por categoría.
+- **Gestión de Datos Robusta:** Persistencia segura y eficiente de los registros climáticos en formato CSV, con control de duplicados y manejo de errores de permisos.
+- **Análisis y Estadísticas Avanzadas:** Generación de informes estadísticos detallados por zona geográfica, proporcionando insights valiosos para la planificación.
+- **Control de Acceso Seguro:** Sistema de autenticación de usuarios para garantizar la integridad y privacidad del sistema.
+- **Interfaz de Usuario Dual:** Acceso a través de una interfaz de línea de comandos (CLI) y una moderna Interfaz de Visualización Dinámica basada en web.
 
 ---
 
@@ -43,13 +43,12 @@ El proyecto SkyCast se adhiere al principio de **Responsabilidad Única**, estru
 
 ### Componentes del Backend (Core Lógico)
 
--   **`main.py`**: Punto de entrada principal y orquestador del flujo de la aplicación CLI.
--   **`registro.py`**: Módulo encargado de la captura de datos climáticos desde la entrada del usuario.
--   **`validacion.py`**: Motor de reglas que asegura la calidad e integridad de los datos, validando formatos y rangos.
--   **`alertas.py`**: Módulo central que evalúa los datos climáticos contra umbrales predefinidos para generar alertas de seguridad. Su lógica de exclusión garantiza la emisión de la alerta más severa.
--   **`datos_csv.py`**: Implementado con la clase `GestorDatosClima`, esta capa de abstracción gestiona la persistencia y consulta de datos en el archivo CSV, encapsulando la lógica de acceso a datos.
--   **`auth.py`**: Módulo de autenticación y gestión de usuarios, garantizando un control de acceso seguro al sistema.
----
+- **`main.py`**: Punto de entrada principal y orquestador del flujo de la aplicación CLI.
+- **`registro.py`**: Módulo encargado de la captura de datos climáticos desde la entrada del usuario.
+- **`validacion.py`**: Motor de reglas que asegura la calidad e integridad de los datos, validando formatos y rangos.
+- **`alertas.py`**: Módulo central que evalúa los datos climáticos contra umbrales predefinidos para generar alertas de seguridad. Su lógica de exclusión garantiza la emisión de la alerta más severa.
+- **`datos_csv.py`**: Implementado con la clase `GestorDatosClima`, esta capa de abstracción gestiona la persistencia y consulta de datos en el archivo CSV, encapsulando la lógica de acceso a datos.
+- **`auth.py`**: Módulo de autenticación y gestión de usuarios, garantizando un control de acceso seguro al sistema.
 
 ### Interfaz de Visualización Dinámica (Aplicación Web)
 
@@ -62,26 +61,30 @@ La aplicación web de SkyCast actúa como una **Interfaz de Visualización Diná
 SkyCast se construye sobre una base sólida de excelencia técnica, seguridad y calidad de software:
 
 ### A. Seguridad y Control de Acceso
--   **Hashing SHA-256 en `auth.py`**: Las credenciales de usuario son protegidas mediante el algoritmo de hashing SHA-256, asegurando que las contraseñas nunca se almacenen en texto plano. Esto garantiza la integridad y confidencialidad de la información sensible.
--   **Módulo `auth.py`**: Proporciona una gestión centralizada de registros e inicios de sesión, incluyendo un prototipo de integración con OAuth para futuras expansiones.
--   **Privacidad en Consola**: El uso de `getpass` asegura que las credenciales sean invisibles durante la entrada en la interfaz de línea de comandos.
+
+- **Hashing SHA-256 en `auth.py`**: Las credenciales de usuario son protegidas mediante el algoritmo de hashing SHA-256, asegurando que las contraseñas nunca se almacenen en texto plano. Esto garantiza la integridad y confidencialidad de la información sensible.
+- **Módulo `auth.py`**: Proporciona una gestión centralizada de registros e inicios de sesión, incluyendo un prototipo de integración con OAuth para futuras expansiones.
+- **Privacidad en Consola**: El uso de `getpass` asegura que las credenciales sean invisibles durante la entrada en la interfaz de línea de comandos.
 
 ### B. Calidad de Software y Testing
--   **Tests Unitarios con `pytest`**: La suite de pruebas automatizadas en la carpeta `/tests` garantiza la fiabilidad del sistema. Esto incluye la validación de la lógica de exclusión de alertas en `alertas.py`, asegurando que los cambios no introduzcan regresiones y que los umbrales críticos funcionen como se espera.
--   **Integración Continua**: Las pruebas automatizadas son un pilar para mantener la estabilidad del sistema a medida que evoluciona.
+
+- **Tests Unitarios con `pytest`**: La suite de pruebas automatizadas en la carpeta `/tests` garantiza la fiabilidad del sistema. Esto incluye la validación de la lógica de exclusión de alertas en `alertas.py`, asegurando que los cambios no introduzcan regresiones y que los umbrales críticos funcionen como se espera.
+- **Integración Continua**: Las pruebas automatizadas son un pilar para mantener la estabilidad del sistema a medida que evoluciona.
 
 ### C. Análisis de Datos Avanzado
--   **Integración de `pandas`**: La librería líder en ciencia de datos se utiliza para el procesamiento y análisis eficiente del historial climático.
--   **Implementación OOP**: Migración de funciones aisladas a una arquitectura basada en clases mediante el módulo `datos_csv.py`. La clase `GestorDatosClima` centraliza el manejo del dataset, mejorando el encapsulamiento y facilitando el mantenimiento del código. Genera resúmenes estadísticos que incluyen:
-    - 🌡️ Medias de temperatura y humedad.
-    - 💨 Detección de rachas máximas de viento.
-    - 📊 Conteo de registros para asegurar la representatividad de la muestra.
--   **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo avanzado de excepciones, asegurando que la aplicación sea estable incluso ante archivos con formatos inconsistentes.
+
+- **Integración de `pandas`**: La librería líder en ciencia de datos se utiliza para el procesamiento y análisis eficiente del historial climático.
+- **Implementación OOP**: Migración de funciones aisladas a una arquitectura basada en clases mediante el módulo `datos_csv.py`. La clase `GestorDatosClima` centraliza el manejo del dataset, mejorando el encapsulamiento y facilitando el mantenimiento del código. Genera resúmenes estadísticos que incluyen:
+  - 🌡️ Medias de temperatura y humedad.
+  - 💨 Detección de rachas máximas de viento.
+  - 📊 Conteo de registros para asegurar la representatividad de la muestra.
+- **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo avanzado de excepciones, asegurando que la aplicación sea estable incluso ante archivos con formatos inconsistentes.
 
 ### D. Gestión de Configuración y Repositorio
--   **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas (ej. `merge=union` para usuarios), garantizando que los archivos CSV críticos no se corrompan durante la integración de ramas.
--   **Uso de `.gitignore`**: Se excluyen los archivos `*.csv` mediante la regla `*.csv` para evitar conflictos de fusión (*merge conflicts*) y asegurar que cada desarrollador trabaje con sus propios datos de prueba.
--   **Limpieza de Caché**: Se ha realizado una limpieza profunda de la caché (`git rm --cached`) para garantizar que los archivos de datos no se suban al repositorio remoto una vez activada la política de ignorado.
+
+- **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas, garantizando que los archivos CSV críticos no se corrompan durante la integración de ramas.
+- **Uso de `.gitignore`**: Se excluyen los archivos `*.csv` mediante la regla `*.csv` para evitar conflictos de fusión (_merge conflicts_) y asegurar que cada desarrollador trabaje con sus propios datos de prueba.
+- **Limpieza de Caché**: Se realizó una limpieza profunda de la caché (`git rm --cached`) para garantizar que el archivo de datos no se suba al repositorio remoto una vez activada la política de ignorado.
 
 ---
 
@@ -105,40 +108,46 @@ La aplicación web de SkyCast ofrece una experiencia de usuario intuitiva para l
 
 Sigue estos pasos para poner en marcha SkyCast en tu entorno local:
 
-1.  **Clonar el repositorio:**
-    ```bash
-    git clone [https://github.com/gconforto-debug/proyecto-clima-ayuntamiento.git](https://github.com/gconforto-debug/proyecto-clima-ayuntamiento.git)
-    cd SkyCast
-    ```
-2.  **Configurar el entorno virtual:**
-    ```bash
-    python -m venv .venv
-    ```
-3.  **Activar el entorno virtual:**
-    * **Windows:**
-        ```bash
-        .venv\Scripts\activate
-        ```
-    * **Linux/macOS:**
-        ```bash
-        source .venv/bin/activate
-        ```
-4.  **Instalar dependencias necesarias:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-5.  **Ejecutar la aplicación CLI:**
-    ```bash
-    python main.py
-    ```
-6.  **Ejecutar la Aplicación Web:**
-    ```bash
-    streamlit run app_web.py
-    ```
-7.  **(Opcional) Ejecutar tests unitarios:**
-    ```bash
-    pytest
-    ```
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/gconforto-debug/proyecto-clima-ayuntamiento.git
+   cd SkyCast
+   ```
+
+2. **Configurar el entorno virtual:**
+   ```bash
+   python -m venv .venv
+   ```
+
+3. **Activar el entorno virtual:**
+   - **Windows:**
+     ```bash
+     .venv\Scripts\activate
+     ```
+   - **Linux/macOS:**
+     ```bash
+     source .venv/bin/activate
+     ```
+
+4. **Instalar dependencias necesarias:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. **Ejecutar la aplicación CLI:**
+   ```bash
+   python main.py
+   ```
+
+6. **Ejecutar la Aplicación Web:**
+   ```bash
+   streamlit run app_web.py
+   ```
+
+7. **(Opcional) Ejecutar tests unitarios:**
+   ```bash
+   pytest
+   ```
 
 ---
 
@@ -146,8 +155,8 @@ Sigue estos pasos para poner en marcha SkyCast en tu entorno local:
 
 Este proyecto ha sido desarrollado con la dedicación y el talento de:
 
--   **Gema Villanueva Breña**
--   **Gianmario Conforto**
--   **Isabela Téllez**
--   **Yohanna S. Pérez**
--   **Juan de la Fuente Larrocca**
+- **Gema Villanueva Breña**
+- **Gianmario Conforto**
+- **Isabela Téllez**
+- **Yohanna S. Pérez**
+- **Juan de la Fuente Larrocca**
