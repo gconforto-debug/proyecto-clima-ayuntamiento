@@ -56,7 +56,7 @@ La aplicación web de SkyCast actúa como una **Interfaz de Visualización Diná
 
 ---
 
-##  Pilares Técnicos y de Calidad
+## 🛡️ Pilares Técnicos y de Calidad
 
 SkyCast se construye sobre una base sólida de excelencia técnica, seguridad y calidad de software:
 
@@ -76,7 +76,8 @@ SkyCast se construye sobre una base sólida de excelencia técnica, seguridad y 
 
 ### D. Gestión de Configuración y Repositorio
 -   **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas, garantizando que los archivos CSV críticos no se corrompan durante la integración de ramas.
--   **Estrategia de Datos Locales**: Implementación de políticas de exclusión vía `.gitignore` y procesos de limpieza de caché (`git rm --cached`) para asegurar que cada entorno de desarrollo trabaje con sus propios datos de prueba sin generar conflictos.
+-   **Uso de `.gitignore`**: Exclusión de archivos `*.csv` para evitar conflictos de fusión y asegurar que cada desarrollador trabaje con sus propios datos de prueba locales.
+-   **Limpieza de Caché**: Aplicación de procesos de limpieza profunda (`git rm --cached`) para garantizar que el repositorio remoto se mantenga limpio de archivos de datos una vez activada la política de ignorado.
 
 ---
 
@@ -102,7 +103,7 @@ Sigue estos pasos para poner en marcha SkyCast en tu entorno local:
 
 1.  **Clonar el repositorio:**
     ```bash
-    git clone (https://github.com/gconforto-debug/proyecto-clima-ayuntamiento.git)]
+    git clone https://github.com/gconforto-debug/proyecto-clima-ayuntamiento.git
     cd SkyCast
     ```
 2.  **Configurar el entorno virtual:**
@@ -146,4 +147,3 @@ Este proyecto ha sido desarrollado con la dedicación y el talento de:
 -   **Isabela Téllez**
 -   **Yohanna S. Pérez**
 -   **Juan de la Fuente Larrocca**
-
