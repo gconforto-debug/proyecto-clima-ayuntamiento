@@ -89,7 +89,7 @@ La aplicación web de SkyCast ofrece una experiencia de usuario intuitiva para l
 > 🚧 **Nota:** La interfaz de visualización se encuentra actualmente en fase de despliegue y ajustes de UI.
 
 <p align="center">
-  <img src="https://img.freepik.com/vector-premium/interfaz-usuario-pantalla-panel-control-graficos-infografias-datos_1017-4638.jpg" alt="Dashboard en desarrollo" width="700">
+  <img src="docs/banner_skycast.png" alt="Dashboard SkyCast" width="700">
   <br>
   <em>Prototipo de la visualización interactiva de datos climáticos y alertas.</em>
 </p>
