@@ -1,8 +1,8 @@
-<p align="center">
-  <img src="docs/skycast_logo_transparent.png" alt="SkyCast Logo" width="500">
+<p align="center" style="margin-bottom: 0px;">
+  <img src="docs/skycast_logo_transparent.png" alt="SkyCast Logo" width="350">
 </p>
 
-<h1 align="center">🌧️ SkyCast - MVP Sprint 1</h1>
+<h1 align="center" style="margin-top: -30px; color: white;">🌧️ SkyCast - MVP Sprint 1</h1>
 
 **SkyCast** (Sistema de Gestión de Alertas Municipales) es una solución modular desarrollada en Python para la monitorización climática urbana. Este sistema permite a los técnicos municipales registrar datos precisos, validar su integridad en tiempo real y emitir alertas automáticas basadas en umbrales de seguridad ciudadana establecidos por la AEMET.
 
