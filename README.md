@@ -74,6 +74,10 @@ SkyCast se construye sobre una base sólida de excelencia técnica, seguridad y 
 -   **`GestorDatosClima`**: La implementación orientada a objetos en `datos_csv.py` centraliza el manejo del dataset, permitiendo generar resúmenes estadísticos automáticos por zona que incluyen medias de temperatura y humedad, máximos de viento y conteo de registros. Esto asegura la integridad de los datos y proporciona insights valiosos.
 -   **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo de excepciones para garantizar la estabilidad de la aplicación incluso con datos inconsistentes.
 
+### D. Gestión de Configuración y Repositorio
+-   **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas, garantizando que los archivos CSV críticos no se corrompan durante la integración de ramas.
+-   **Estrategia de Datos Locales**: Implementación de políticas de exclusión vía `.gitignore` y procesos de limpieza de caché (`git rm --cached`) para asegurar que cada entorno de desarrollo trabaje con sus propios datos de prueba sin generar conflictos.
+
 ---
 
 ## 🖥️ Interfaz de Visualización Dinámica (Web)
