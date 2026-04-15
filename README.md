@@ -84,11 +84,14 @@ SkyCast se construye sobre una base sólida de excelencia técnica, seguridad y 
 
 La aplicación web de SkyCast ofrece una experiencia de usuario intuitiva para la visualización de datos climáticos y la gestión de alertas. A través de dashboards interactivos, los usuarios pueden monitorear las condiciones ambientales, revisar el historial de alertas y acceder a estadísticas clave de manera gráfica y comprensible.
 
-<!-- Placeholder para una Captura de Pantalla de la interfaz web -->
+### Aplicación Web (Frontend)
+
+> 🚧 **Nota:** La interfaz de visualización se encuentra actualmente en fase de despliegue y ajustes de UI.
+
 <p align="center">
-  <img src="docs/skycast_web_screenshot.png" alt="Captura de Pantalla de la Aplicación Web SkyCast" width="700">
+  <img src="https://img.freepik.com/vector-premium/interfaz-usuario-pantalla-panel-control-graficos-infografias-datos_1017-4638.jpg" alt="Dashboard en desarrollo" width="700">
   <br>
-  <em>Visualización interactiva de datos climáticos y alertas en la aplicación web de SkyCast.</em>
+  <em>Prototipo de la visualización interactiva de datos climáticos y alertas.</em>
 </p>
 
 ---
@@ -99,7 +102,7 @@ Sigue estos pasos para poner en marcha SkyCast en tu entorno local:
 
 1.  **Clonar el repositorio:**
     ```bash
-    git clone [URL_DEL_REPOSITORIO]
+    git clone (https://github.com/gconforto-debug/proyecto-clima-ayuntamiento.git)]
     cd SkyCast
     ```
 2.  **Configurar el entorno virtual:**
@@ -144,8 +147,3 @@ Este proyecto ha sido desarrollado con la dedicación y el talento de:
 -   **Yohanna S. Pérez**
 -   **Juan de la Fuente Larrocca**
 
----
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia [Nombre de la Licencia, ej. MIT License]. Consulta el archivo `LICENSE` para más detalles.
