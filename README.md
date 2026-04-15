@@ -49,6 +49,7 @@ El proyecto SkyCast se adhiere al principio de **Responsabilidad Única**, estru
 -   **`alertas.py`**: Módulo central que evalúa los datos climáticos contra umbrales predefinidos para generar alertas de seguridad. Su lógica de exclusión garantiza la emisión de la alerta más severa.
 -   **`datos_csv.py`**: Implementado con la clase `GestorDatosClima`, esta capa de abstracción gestiona la persistencia y consulta de datos en el archivo CSV, encapsulando la lógica de acceso a datos.
 -   **`auth.py`**: Módulo de autenticación y gestión de usuarios, garantizando un control de acceso seguro al sistema.
+---
 
 ### Interfaz de Visualización Dinámica (Aplicación Web)
 
@@ -71,16 +72,16 @@ SkyCast se construye sobre una base sólida de excelencia técnica, seguridad y 
 
 ### C. Análisis de Datos Avanzado
 -   **Integración de `pandas`**: La librería líder en ciencia de datos se utiliza para el procesamiento y análisis eficiente del historial climático.
--   **Implementación OOP (`GestorDatosClima`)**: Migración a una arquitectura basada en clases en `datos_csv.py`. Centraliza el manejo del dataset y genera resúmenes estadísticos automáticos por zona que incluyen:
+-   **Implementación OOP**: Migración de funciones aisladas a una arquitectura basada en clases mediante el módulo `datos_csv.py`. La clase `GestorDatosClima` centraliza el manejo del dataset, mejorando el encapsulamiento y facilitando el mantenimiento del código. Genera resúmenes estadísticos que incluyen:
     - 🌡️ Medias de temperatura y humedad.
     - 💨 Detección de rachas máximas de viento.
     - 📊 Conteo de registros para asegurar la representatividad de la muestra.
--   **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo de excepciones para garantizar la estabilidad de la aplicación incluso con datos inconsistentes.
+-   **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo avanzado de excepciones, asegurando que la aplicación sea estable incluso ante archivos con formatos inconsistentes.
 
 ### D. Gestión de Configuración y Repositorio
--   **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas, garantizando que los archivos CSV críticos no se corrompan durante la integración de ramas.
--   **Uso de `.gitignore`**: Exclusión de archivos `*.csv` para evitar conflictos de fusión y asegurar que cada desarrollador trabaje con sus propios datos de prueba locales.
--   **Limpieza de Caché**: Aplicación de procesos de limpieza profunda (`git rm --cached`) para garantizar que el repositorio remoto se mantenga limpio de archivos de datos una vez activada la política de ignorado.
+-   **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas (ej. `merge=union` para usuarios), garantizando que los archivos CSV críticos no se corrompan durante la integración de ramas.
+-   **Uso de `.gitignore`**: Se excluyen los archivos `*.csv` mediante la regla `*.csv` para evitar conflictos de fusión (*merge conflicts*) y asegurar que cada desarrollador trabaje con sus propios datos de prueba.
+-   **Limpieza de Caché**: Se ha realizado una limpieza profunda de la caché (`git rm --cached`) para garantizar que los archivos de datos no se suban al repositorio remoto una vez activada la política de ignorado.
 
 ---
 
