@@ -87,4 +87,10 @@ def menu_principal():
 if __name__ == "__main__": 
     # 2. Se eliminaron espacios extra dentro de "__main__"
     if auth.solicitar_acceso():
+        # --- AVISO DE SISTEMA DUAL ---
+        print("\n" + "·"*40)
+        print("🌐 SERVIDOR WEB DISPONIBLE")
+        print("Para ver el panel visual, ejecuta 'python app.py'")
+        print("·"*40)
+        # -----------------------------
         menu_principal()
