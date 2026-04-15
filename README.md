@@ -70,8 +70,11 @@ SkyCast se construye sobre una base sólida de excelencia técnica, seguridad y 
 -   **Integración Continua**: Las pruebas automatizadas son un pilar para mantener la estabilidad del sistema a medida que evoluciona.
 
 ### C. Análisis de Datos Avanzado
--   **Integración de `pandas`**: La librería líder en ciencia de datos se utiliza para el procesamiento y análisis eficiente de grandes volúmenes de datos climáticos.
--   **`GestorDatosClima`**: La implementación orientada a objetos en `datos_csv.py` centraliza el manejo del dataset, permitiendo generar resúmenes estadísticos automáticos por zona que incluyen medias de temperatura y humedad, máximos de viento y conteo de registros. Esto asegura la integridad de los datos y proporciona insights valiosos.
+-   **Integración de `pandas`**: La librería líder en ciencia de datos se utiliza para el procesamiento y análisis eficiente del historial climático.
+-   **Implementación OOP (`GestorDatosClima`)**: Migración a una arquitectura basada en clases en `datos_csv.py`. Centraliza el manejo del dataset y genera resúmenes estadísticos automáticos por zona que incluyen:
+    - 🌡️ Medias de temperatura y humedad.
+    - 💨 Detección de rachas máximas de viento.
+    - 📊 Conteo de registros para asegurar la representatividad de la muestra.
 -   **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo de excepciones para garantizar la estabilidad de la aplicación incluso con datos inconsistentes.
 
 ### D. Gestión de Configuración y Repositorio
@@ -103,7 +106,7 @@ Sigue estos pasos para poner en marcha SkyCast en tu entorno local:
 
 1.  **Clonar el repositorio:**
     ```bash
-    git clone https://github.com/gconforto-debug/proyecto-clima-ayuntamiento.git
+    git clone [https://github.com/gconforto-debug/proyecto-clima-ayuntamiento.git](https://github.com/gconforto-debug/proyecto-clima-ayuntamiento.git)
     cd SkyCast
     ```
 2.  **Configurar el entorno virtual:**
@@ -111,11 +114,11 @@ Sigue estos pasos para poner en marcha SkyCast en tu entorno local:
     python -m venv .venv
     ```
 3.  **Activar el entorno virtual:**
-    *   **Windows:**
+    * **Windows:**
         ```bash
         .venv\Scripts\activate
         ```
-    *   **Linux/macOS:**
+    * **Linux/macOS:**
         ```bash
         source .venv/bin/activate
         ```
@@ -127,9 +130,9 @@ Sigue estos pasos para poner en marcha SkyCast en tu entorno local:
     ```bash
     python main.py
     ```
-6.  **Ejecutar la Aplicación Web (si aplica, por ejemplo, con Streamlit):**
+6.  **Ejecutar la Aplicación Web:**
     ```bash
-    streamlit run app_web.py # (Ejemplo, el nombre del archivo puede variar)
+    streamlit run app_web.py
     ```
 7.  **(Opcional) Ejecutar tests unitarios:**
     ```bash
