@@ -113,13 +113,14 @@ def main():
 
     gestor = datos_csv.GestorDatosClima()
 
-    # --- DASHBOARD (Diseño de la Foto) ---
+    # --- DASHBOARD (Diseño Integrado) ---
     if opcion == "📈 Dashboard":
         st.header("📊 Análisis Estadístico")
         zona = st.selectbox("Seleccione Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
         stats = gestor.obtener_estadisticas_zona(zona)
 
         if stats:
+            # 1. Métricas superiores
             c1, c2, c3 = st.columns(3)
             c1.metric("Temperatura Media", f"{stats['media_temp']:.1f} °C")
             c2.metric("Viento Máximo", f"{stats['max_viento']} km/h")
@@ -127,23 +128,27 @@ def main():
 
             st.write("---")
             
-            # Gráfico y Resumen en columnas (Como en la foto)
-            col_graf, col_res = st.columns([2, 1])
-            
-            with col_graf:
-                st.subheader("📈 Tendencia")
-                df = pd.read_csv("clima_dataset.csv")
-                df_zona = df[df['zona'] == zona].sort_values('fecha')
-                # st.line_chart permite zoom nativo con la rueda del ratón
-                st.line_chart(df_zona.set_index('fecha')['temperatura'], color="#58a6ff", height=350)
-            
-            with col_res:
-                st.subheader("📋 Resumen")
-                st.write(f"Mostrando los últimos **{stats['conteo']}** registros de la zona **{zona}**.")
+            # 2. Gráfica a ancho completo para mejor visibilidad y zoom
+            st.subheader("📈 Tendencia")
+            df = pd.read_csv("clima_dataset.csv")
+            df_zona = df[df['zona'] == zona].sort_values('fecha')
+            st.line_chart(df_zona.set_index('fecha')['temperatura'], color="#58a6ff", height=300)
+
+            # 3. Resumen enmarcado abajo (ya no se ve como dato suelto)
+            # Usamos un st.container para darle estructura
+            with st.container():
+                st.write("##") # Pequeño espacio
+                col_ico, col_txt = st.columns([0.1, 3])
+                col_ico.write("📋")
+                with col_txt:
+                    st.markdown(f"**Resumen de actividad:** Se han analizado los últimos **{stats['conteo']}** registros en la demarcación **{zona}**.")
+                
+                # Las alertas aparecen solo si es necesario, justo debajo del texto
                 if stats['max_viento'] > 80:
-                    st.warning("⚠️ Ráfagas de viento elevadas detectadas.")
+                    st.warning(f"⚠️ **Aviso Meteorológico:** Se han detectado ráfagas de viento de {stats['max_viento']} km/h en esta zona.")
         else:
             st.info("No hay datos para esta zona.")
+            
 
         # --- PANTALLA: REGISTRO DE DATOS ---
     elif opcion == "📝 Registrar Datos":
