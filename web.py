@@ -120,7 +120,7 @@ def main():
         stats = gestor.obtener_estadisticas_zona(zona)
 
         if stats:
-            # 1. Métricas superiores
+            # 1. Métricas (Fila superior)
             c1, c2, c3 = st.columns(3)
             c1.metric("Temperatura Media", f"{stats['media_temp']:.1f} °C")
             c2.metric("Viento Máximo", f"{stats['max_viento']} km/h")
@@ -128,27 +128,27 @@ def main():
 
             st.write("---")
             
-            # 2. Gráfica a ancho completo para mejor visibilidad y zoom
+            # 2. Tendencia (Ocupa todo el ancho, sin columnas)
             st.subheader("📈 Tendencia")
             df = pd.read_csv("clima_dataset.csv")
             df_zona = df[df['zona'] == zona].sort_values('fecha')
-            st.line_chart(df_zona.set_index('fecha')['temperatura'], color="#58a6ff", height=300)
+            # Aumentamos un poco el alto para que se vea mejor
+            st.line_chart(df_zona.set_index('fecha')['temperatura'], color="#58a6ff", height=350)
 
-            # 3. Resumen enmarcado abajo (ya no se ve como dato suelto)
-            # Usamos un st.container para darle estructura
+            # 3. Resumen y Alertas (Fila inferior, ocupando todo el ancho)
+            st.write("##") # Espacio de respiro
+            
+            # Usamos un contenedor para agrupar el resumen
             with st.container():
-                st.write("##") # Pequeño espacio
-                col_ico, col_txt = st.columns([0.1, 3])
-                col_ico.write("📋")
-                with col_txt:
-                    st.markdown(f"**Resumen de actividad:** Se han analizado los últimos **{stats['conteo']}** registros en la demarcación **{zona}**.")
+                st.markdown(f"### 📋 Resumen")
+                st.write(f"Se han analizado los últimos **{stats['conteo']}** registros en la demarcación **{zona}**.")
                 
-                # Las alertas aparecen solo si es necesario, justo debajo del texto
+                # La alerta ahora se ve como una barra larga abajo
                 if stats['max_viento'] > 80:
                     st.warning(f"⚠️ **Aviso Meteorológico:** Se han detectado ráfagas de viento de {stats['max_viento']} km/h en esta zona.")
         else:
             st.info("No hay datos para esta zona.")
-            
+
 
         # --- PANTALLA: REGISTRO DE DATOS ---
     elif opcion == "📝 Registrar Datos":
