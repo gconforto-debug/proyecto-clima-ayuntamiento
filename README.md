@@ -35,8 +35,9 @@ Sigue estos pasos para poner en marcha el sistema en tu entorno local:
 3.  **Activar el entorno:** \* Windows: `.venv\Scripts\activate`
     - Linux/Mac: `source .venv/bin/activate`
 4.  **Instalar dependencias necesarias:** `pip install -r requirements.txt`
-5.  **Ejecutar la aplicación:** `python main.py`
-6.  **(Opcional) Ejecutar tests unitarios:** `pytest`
+5.  **Ejecutar la aplicación por consola:** `python main.py`
+6.  **Ejecutar la aplicación por web:** `streamlit run web.py`
+7.  **(Opcional) Ejecutar tests unitarios:** `pytest`
 
 ## 📦 Gestión de Git y Colaboración
 
