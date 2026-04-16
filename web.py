@@ -72,15 +72,17 @@ if not st.session_state.conectado:
 # --- 4. INTERFAZ PRINCIPAL ---
 # Cargamos el logo solo si el archivo existe en la carpeta
 with st.sidebar:
-    if os.path.exists('logo.png'):
-        # Añadimos un pequeño margen superior para que no pegue al borde
+    # Definimos la ruta correcta hacia la carpeta docs
+    ruta_logo = 'docs/skycast_logo_transparent.png'
+    
+    if os.path.exists(ruta_logo):
         st.markdown("##") 
-        st.image('logo.png', use_container_width=True)
+        st.image(ruta_logo, use_container_width=True)
     else:
         st.title("🌤️ SKYCAST")
     
     st.markdown(f"**Usuario:** {st.session_state.user.capitalize()}")
-    st.write("---") # Separador visual elegante
+    st.write("---")
 
 opcion = st.sidebar.radio("Navegación", ["📊 Dashboard", "📝 Registrar Datos", "🔍 Historial", "🚪 Cerrar Sesión"])
 if opcion == "🚪 Cerrar Sesión":
