@@ -113,14 +113,14 @@ def main():
 
     gestor = datos_csv.GestorDatosClima()
 
-    # --- DASHBOARD ---
+    # --- DASHBOARD (Diseño Integrado) ---
     if opcion == "📈 Dashboard":
         st.header("📊 Análisis Estadístico")
         zona = st.selectbox("Seleccione Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
         stats = gestor.obtener_estadisticas_zona(zona)
 
         if stats:
-            # 1. Métricas superiores
+            # 1. Métricas (Fila superior)
             c1, c2, c3 = st.columns(3)
             c1.metric("Temperatura Media", f"{stats['media_temp']:.1f} °C")
             c2.metric("Viento Máximo", f"{stats['max_viento']} km/h")
@@ -128,45 +128,28 @@ def main():
 
             st.write("---")
             
-            # 2. Gráfica de Tendencia
+            # 2. Tendencia (Ocupa todo el ancho, sin columnas)
             st.subheader("📈 Tendencia")
             df = pd.read_csv("clima_dataset.csv")
             df_zona = df[df['zona'] == zona].sort_values('fecha')
             st.line_chart(df_zona.set_index('fecha')['temperatura'], color="#58a6ff", height=300)
 
-            # 3. Resumen de actividad (Ahora va primero)
-            # Quitamos la línea gris superior para que se pegue a la gráfica como antes
+            # 3. Resumen y Alertas (Pegado y pequeño)
+            # Usamos un div con estilo CSS para reducir el tamaño de letra y márgenes
             st.markdown(f"""
-                <div style="margin-top: -40px; margin-bottom: 10px;">
-                    <p style="font-size: 15px; margin: 0;">
-                        📋 <b>Resumen de actividad:</b> Se han analizado los últimos <b>{stats['conteo']}</b> registros en la demarcación <b>{zona}</b>.
+                <div style="margin-top: -40px;">
+                    <h3 style="font-size: 20px; margin-bottom: 5px;">📋 Resumen</h3>
+                    <p style="font-size: 14px; margin-top: 0px;">
+                        Análisis de los últimos <b>{stats['conteo']}</b> registros en <b>{zona}</b>.
                     </p>
                 </div>
             """, unsafe_allow_html=True)
             
-            # 4. Avisos Meteorológicos (Ahora van debajo del resumen)
-            # Usamos los datos dinámicos del CSV actualizado
-            max_temp = df_zona['temperatura'].max()
-            min_temp = df_zona['temperatura'].min()
-            max_viento = df_zona['viento'].max()
-            min_hum = df_zona['humedad'].min()
-
-            if max_viento > 70:
-                st.warning(f"⚠️ **Aviso Meteorológico:** Se han detectado rachas de viento elevadas de {max_viento} km/h en esta zona.")
-            
-            elif max_temp > 40:
-                st.warning(f"🔥 **Aviso Meteorológico:** Se ha detectado una anomalía térmica por calor extremo de {max_temp} °C.")
-            
-            elif min_temp < 0:
-                st.warning(f"❄️ **Aviso Meteorológico:** Se han detectado riesgos de heladas con temperaturas de {min_temp} °C.")
-            
-            elif max_temp > 35 and min_hum < 25:
-                st.warning(f"🔥 **Aviso Meteorológico:** Se ha detectado un riesgo elevado de incendio por altas temperaturas y baja humedad.")
-            
-            elif min_hum < 20:
-                st.warning(f"⚠️ **Aviso Meteorológico:** Se ha detectado una tendencia de sequedad extrema ambiental ({min_hum}% humedad).")        
+            # Alerta compacta
+            if stats['max_viento'] > 80:
+                st.warning(f"⚠️ Ráfagas de viento elevadas detectadas.")
         else:
-            st.info("ℹ️ No hay datos registrados para esta zona.")
+            st.info("No hay datos para esta zona.")
 
 
         # --- PANTALLA: REGISTRO DE DATOS ---
