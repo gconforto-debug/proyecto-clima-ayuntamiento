@@ -158,8 +158,8 @@ def main():
             z = col_b.selectbox("Zona", ["Seleccione Zona", "Centro", "Norte", "Sur", "Este", "Oeste"])
             
             # Precision de 0.1 y forzado de punto decimal
-            temp = st.number_input("Temperatura (°C)", value=20.0, step=0.1, format="%.1f")
-            hum = st.slider("Humedad (%)", 0, 100, 50)
+            temp = st.number_input("Temperatura (°C)", value=0.0, step=0.1, format="%.1f")
+            hum = st.slider("Humedad (%)", 0, 100, 0)
             
             # Precision de 0.5 y forzado de punto decimal
             vie = st.number_input("Viento (km/h)", value=0.0, step=0.5, format="%.1f")
