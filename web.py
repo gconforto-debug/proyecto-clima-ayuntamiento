@@ -17,24 +17,25 @@ st.set_page_config(page_title="SkyCast Municipal", page_icon="🌤️", layout="
 def aplicar_estilos():
     st.markdown("""
         <style>
-            /* 1. Ajuste de ancho de la sidebar */    
+            /* 1. Barra superior: Aseguramos que sea visible y use los colores del tema */
+            header { visibility: visible !important; }
+            
+            /* 2. Ajuste de la Sidebar */
             [data-testid="stSidebar"] { width: 300px !important; }
             
-            /* 2. Solo cambiamos el color de los Títulos para dar identidad */
+            /* 3. Títulos en Azul SkyCast (funciona en ambos modos) */
             h1, h2, h3 { color: #58a6ff !important; }
-                
-            /* 3. Tarjetas de métricas: SIN COLOR DE FONDO */
-            /* Solo usamos un borde para que se vea el recuadro */
+
+            /* 4. Tarjetas de métricas: Sin color de fondo fijo */
+            /* Usamos un borde sutil para dar estructura sin bloquear el texto */
             div[data-testid="stMetric"] {
-                border: 1px solid #808080;
-                border-radius: 10px;
+                border: 1px solid rgba(128, 128, 128, 0.3);
+                border-radius: 12px;
                 padding: 15px;
             }
-
-            /* 4. Limpieza de elementos de la interfaz */
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
+            
+            /* 5. Ocultamos solo el pie de página de Streamlit */
+            footer { visibility: hidden !important; }
         </style>
     """, unsafe_allow_html=True)
 
@@ -48,14 +49,14 @@ if 'conectado' not in st.session_state:
     st.session_state.conectado = False
 
 if not st.session_state.conectado:
-    # Centrar el formulario de login
+    st.write("##") # Espacio superior
     col1, col2, col3 = st.columns([1,2,1])
     with col2:
         st.title("☀️ SkyCast Login")
         with st.form("login_form"):
             u = st.text_input("Usuario").lower().strip()
             p = st.text_input("Contraseña", type="password")
-            if st.form_submit_button("Acceder"):
+            if st.form_submit_button("Acceder al Sistema"):
                 usuarios_db = auth._cargar_usuarios()
                 if usuarios_db.get(u) == auth._hash_password(p):
                     st.session_state.conectado = True
@@ -65,65 +66,61 @@ if not st.session_state.conectado:
                     st.error("❌ Usuario o contraseña incorrectos")
     st.stop()
 
-# --- 4. INTERFAZ PRINCIPAL (Solo si está conectado) ---
-st.sidebar.title(f"👤 {st.session_state.user.capitalize()}")
-opcion = st.sidebar.radio("Menú de Gestión", ["📊 Dashboard", "📝 Registrar Datos", "🔍 Historial", "🚪 Cerrar Sesión"])
+# --- 4. INTERFAZ PRINCIPAL ---
+# Cargamos el logo solo si el archivo existe en la carpeta
+if os.path.exists('logo.png'):
+    st.sidebar.image('logo.png', width=150)
+else:
+    st.sidebar.title("🌤️ SKYCAST")
+
+st.sidebar.markdown(f"**Usuario:** {st.session_state.user.capitalize()}")
+opcion = st.sidebar.radio("Navegación", ["📊 Dashboard", "📝 Registrar Datos", "🔍 Historial", "🚪 Cerrar Sesión"])
 
 if opcion == "🚪 Cerrar Sesión":
     st.session_state.conectado = False
     st.rerun()
 
 elif opcion == "📊 Dashboard":
-    st.title("🏛️ Dashboard Meteorológico Municipal")
+    st.title("🏛️ Panel de Control Climático")
     zona = st.selectbox("Seleccione Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
     
     stats = gestor.obtener_estadisticas_zona(zona)
     
     if stats:
-        # Fila de métricas grandes (Como en tu captura original)
         c1, c2, c3 = st.columns(3)
         c1.metric("Temperatura Media", f"{stats['media_temp']:.1f} °C")
         c2.metric("Humedad Media", f"{stats['media_hum']:.1f} %")
         c3.metric("Viento Máximo", f"{stats['max_viento']} km/h")
         
-        # Gráfico rápido de tendencia
-        st.subheader("📈 Tendencia de Temperatura")
+        st.subheader("📈 Tendencia")
         df_zona = pd.DataFrame(gestor.consultar_por_zona(zona))
         if not df_zona.empty:
-            df_zona['temperatura'] = df_zona['temperatura'].astype(float)
             st.line_chart(df_zona.set_index('fecha')['temperatura'])
     else:
         st.info(f"No hay datos registrados para la zona {zona}.")
 
 elif opcion == "📝 Registrar Datos":
-    st.title("📝 Nuevo Registro")
+    st.title("📝 Nueva Entrada")
     with st.form("registro_datos"):
-        c1, c2 = st.columns(2)
-        f = c1.date_input("Fecha", datetime.now())
-        z = c2.selectbox("Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
-        
-        temp = st.number_input("Temperatura (°C)", value=20.0, step=0.1)
+        f = st.date_input("Fecha", datetime.now())
+        z = st.selectbox("Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
+        temp = st.number_input("Temperatura (°C)", value=20.0)
         hum = st.slider("Humedad (%)", 0, 100, 50)
-        vie = st.number_input("Viento (km/h)", value=0.0, step=0.5)
+        vie = st.number_input("Viento (km/h)", value=0.0)
 
-        if st.form_submit_button("Guardar en Sistema"):
+        if st.form_submit_button("Guardar Datos"):
             datos = {"fecha": str(f), "zona": z, "temperatura": temp, "humedad": hum, "viento": vie}
-            
             errores = validacion.validar_registro(datos)
             if errores:
                 for err in errores: st.error(err)
             else:
-                # Alertas visuales
                 avisos = alertas.evaluar_alertas(datos)
                 for aviso in avisos: st.warning(aviso)
-                
                 if gestor.guardar_en_csv(datos):
-                    st.success("✅ Registro guardado correctamente.")
+                    st.success("✅ Datos guardados correctamente.")
 
 elif opcion == "🔍 Historial":
-    st.header("🔍 Historial Completo")
+    st.header("🔍 Registro Histórico")
     if os.path.exists("clima_dataset.csv"):
         df = pd.read_csv("clima_dataset.csv")
-        st.dataframe(df.sort_values(by="fecha", ascending=False), use_container_width=True)
-    else:
-        st.error("Archivo de datos no encontrado.")
+        st.dataframe(df, use_container_width=True)
