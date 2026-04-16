@@ -17,24 +17,31 @@ st.set_page_config(page_title="SkyCast Municipal", page_icon="🌤️", layout="
 def aplicar_estilos():
     st.markdown("""
         <style>
-            /* 1. Barra superior: Aseguramos que sea visible y use los colores del tema */
-            header { visibility: visible !important; }
+            /* 1. Ocultar botones específicos de la barra superior (Toolbar) */
+            /* Esto quita Share, la estrella, el lápiz y el icono de GitHub */
+            [data-testid="stToolbar"] {
+                right: 2rem; /* Ajusta la posición del menú de 3 puntos */
+            }
             
+            /* Seleccionamos los elementos hijos del toolbar que NO son el menú de 3 puntos y los ocultamos */
+            [data-testid="stToolbarActions"] {
+                display: none !important;
+            }
+
             /* 2. Ajuste de la Sidebar */
             [data-testid="stSidebar"] { width: 300px !important; }
             
-            /* 3. Títulos en Azul SkyCast (funciona en ambos modos) */
+            /* 3. Títulos en Azul SkyCast */
             h1, h2, h3 { color: #58a6ff !important; }
 
-            /* 4. Tarjetas de métricas: Sin color de fondo fijo */
-            /* Usamos un borde sutil para dar estructura sin bloquear el texto */
+            /* 4. Tarjetas de métricas */
             div[data-testid="stMetric"] {
                 border: 1px solid rgba(128, 128, 128, 0.3);
                 border-radius: 12px;
                 padding: 15px;
             }
             
-            /* 5. Ocultamos solo el pie de página de Streamlit */
+            /* 5. Ocultar el pie de página */
             footer { visibility: hidden !important; }
         </style>
     """, unsafe_allow_html=True)
