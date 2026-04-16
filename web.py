@@ -55,12 +55,15 @@ if not st.session_state.conectado:
     st.write("##") 
     col1, col2, col3 = st.columns([1,2,1])
     with col2:
-        # --- AÑADIENDO EL LOGO  ---
+        # 1. Mostramos el logo centrado
         ruta_logo = 'docs/skycast_logo_transparent.png'
         if os.path.exists(ruta_logo):
-            st.image(ruta_logo, width=200) # Logo centrado en el login
+            # Usamos use_container_width para que se adapte al ancho de la columna
+            st.image(ruta_logo, width=250) 
         
-        st.title("☀️ SkyCast Login")
+        # 2. Quitamos el emoji del título para que se vea más serio y profesional
+        st.title("SkyCast Login") 
+        
         with st.form("login_form"):
             u = st.text_input("Usuario").lower().strip()
             p = st.text_input("Contraseña", type="password")
