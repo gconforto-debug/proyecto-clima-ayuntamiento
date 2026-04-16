@@ -17,28 +17,28 @@ st.set_page_config(page_title="SkyCast Municipal", page_icon="🌤️", layout="
 def aplicar_estilos():
     st.markdown("""
         <style>
-            /* 1. Quitamos el color de fondo fijo (.stApp) para que sea dinámico */
-            
-            /* 2. Ajustamos el ancho de la sidebar */    
+            /* 1. Ajustamos el ancho de la sidebar */    
             [data-testid="stSidebar"] { width: 300px !important; }
             
-            /* 3. Color azul para los títulos (esto queda bien en ambos modos) */
+            /* 2. Color azul para los títulos (se ve bien en claro y oscuro) */
             h1, h2, h3 { color: #58a6ff !important; }
                 
-            /* 4. Estilo de las tarjetas de métricas mejorado */
+            /* 3. Estilo de las tarjetas de métricas mejorado */
+            /* Usamos un borde sutil para que se vea bien en ambos modos */
             div[data-testid="stMetric"] {
-                background-color: rgba(128, 128, 128, 0.1); /* Fondo sutil traslúcido */
                 border: 1px solid #30363d;
                 border-radius: 10px;
                 padding: 15px;
+                background-color: rgba(151, 166, 185, 0.1); 
             }
 
-            /* 5. Ocultar menús innecesarios */
+            /* 4. Ocultar menús innecesarios para un look más profesional */
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
+            header {visibility: hidden;}
         </style>
     """, unsafe_allow_html=True)
-    
+
 aplicar_estilos()
 
 # Inicializar el gestor de datos
