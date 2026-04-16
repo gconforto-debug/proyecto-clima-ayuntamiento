@@ -37,7 +37,7 @@ def validar_registro(registro):
             if fecha_convertida > fecha_hoy:
                 errores.append("Fecha no válida. No se permiten fechas futuras.")
         except ValueError:
-            errores.append("Fecha incorrecta. Usa formato YYYY-MM-DD (ej: 2026-11-13) y comprueba que la fecha corresponda al día de hoy.")
+            errores.append("Fecha incorrecta. Usa formato YYYY-MM-DD (ej: 2026-11-13)")
 
     # VALIDACIÓN DE ZONA
     if zona == "":
