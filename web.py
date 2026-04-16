@@ -52,22 +52,31 @@ if 'conectado' not in st.session_state:
     st.session_state.conectado = False
 
 if not st.session_state.conectado:
-    st.write("##") 
-    col1, col2, col3 = st.columns([1,2,1])
+    st.write("##") # Espacio superior inicial
+    col1, col2, col3 = st.columns([1, 2, 1])
+    
     with col2:
-        # 1. Mostramos el logo centrado
+        # --- LOGO CENTRADO ---
         ruta_logo = 'docs/skycast_logo_transparent.png'
         if os.path.exists(ruta_logo):
-            # Usamos use_container_width para que se adapte al ancho de la columna
-            st.image(ruta_logo, width=250) 
+            # Creamos sub-columnas para centrar el logo exactamente al medio
+            c_izq, c_mid, c_der = st.columns([1, 2, 1])
+            with c_mid:
+                st.image(ruta_logo, use_container_width=True)
         
-        # 2. Quitamos el emoji del título para que se vea más serio y profesional
-        st.title("SkyCast Login") 
+        # --- TÍTULO ---
+        # Usamos HTML para asegurar que el texto esté centrado respecto al logo
+        st.markdown("<h1 style='text-align: center; color: #58a6ff; margin-top: -10px;'>SkyCast Login</h1>", unsafe_allow_html=True)
         
+        # --- FORMULARIO ---
         with st.form("login_form"):
             u = st.text_input("Usuario").lower().strip()
             p = st.text_input("Contraseña", type="password")
-            if st.form_submit_button("Acceder al Sistema"):
+            # Centramos también el botón de envío
+            col_btn1, col_btn2 = st.columns([1, 1])
+            submit = st.form_submit_button("Acceder al Sistema")
+            
+            if submit:
                 usuarios_db = auth._cargar_usuarios()
                 if usuarios_db.get(u) == auth._hash_password(p):
                     st.session_state.conectado = True
