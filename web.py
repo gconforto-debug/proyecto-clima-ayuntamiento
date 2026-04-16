@@ -17,17 +17,12 @@ st.set_page_config(page_title="SkyCast Municipal", page_icon="🌤️", layout="
 def aplicar_estilos():
     st.markdown("""
         <style>
-            /* 1. Ocultar botones específicos de la barra superior (Toolbar) */
-            /* Esto quita Share, la estrella, el lápiz y el icono de GitHub */
-            [data-testid="stToolbar"] {
-                right: 2rem; /* Ajusta la posición del menú de 3 puntos */
-            }
-            
-            /* Seleccionamos los elementos hijos del toolbar que NO son el menú de 3 puntos y los ocultamos */
-            [data-testid="stToolbarActions"] {
+            /* 1. Ocultar todos los iconos de la barra superior excepto los 3 puntos */
+            /* Buscamos el contenedor de acciones y lo eliminamos */
+            div[data-testid="stToolbarActions"] {
                 display: none !important;
             }
-
+            
             /* 2. Ajuste de la Sidebar */
             [data-testid="stSidebar"] { width: 300px !important; }
             
@@ -41,8 +36,9 @@ def aplicar_estilos():
                 padding: 15px;
             }
             
-            /* 5. Ocultar el pie de página */
+            /* 5. Ocultar el pie de página y la decoración superior innecesaria */
             footer { visibility: hidden !important; }
+            header { background-color: rgba(0,0,0,0) !important; }
         </style>
     """, unsafe_allow_html=True)
 
