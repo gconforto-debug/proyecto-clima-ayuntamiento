@@ -52,9 +52,14 @@ if 'conectado' not in st.session_state:
     st.session_state.conectado = False
 
 if not st.session_state.conectado:
-    st.write("##") # Espacio superior
+    st.write("##") 
     col1, col2, col3 = st.columns([1,2,1])
     with col2:
+        # --- AÑADIENDO EL LOGO  ---
+        ruta_logo = 'docs/skycast_logo_transparent.png'
+        if os.path.exists(ruta_logo):
+            st.image(ruta_logo, width=200) # Logo centrado en el login
+        
         st.title("☀️ SkyCast Login")
         with st.form("login_form"):
             u = st.text_input("Usuario").lower().strip()
@@ -72,19 +77,19 @@ if not st.session_state.conectado:
 # --- 4. INTERFAZ PRINCIPAL ---
 # Cargamos el logo solo si el archivo existe en la carpeta
 with st.sidebar:
-    # Definimos la ruta correcta hacia la carpeta docs
     ruta_logo = 'docs/skycast_logo_transparent.png'
-    
     if os.path.exists(ruta_logo):
-        st.markdown("##") 
         st.image(ruta_logo, use_container_width=True)
-    else:
-        st.title("🌤️ SKYCAST")
     
+    # Eliminamos el st.title() y usamos markdown directo para reducir espacio
     st.markdown(f"**Usuario:** {st.session_state.user.capitalize()}")
-    st.write("---")
+    
+    # Reducimos el espacio del separador
+    st.markdown('<hr style="margin: 8px 0px;">', unsafe_allow_html=True)
+    
+    st.write("Navegación")
+    opcion = st.radio("", ["📊 Dashboard", "📝 Registrar Datos", "🔍 Historial", "🚪 Cerrar Sesión"], label_visibility="collapsed")
 
-opcion = st.sidebar.radio("Navegación", ["📊 Dashboard", "📝 Registrar Datos", "🔍 Historial", "🚪 Cerrar Sesión"])
 if opcion == "🚪 Cerrar Sesión":
     st.session_state.conectado = False
     st.rerun()
