@@ -128,26 +128,24 @@ def main():
 
             st.write("---")
             
-            # 2. Tendencia (Ocupa todo el ancho, sin columnas)
+            # 2. Gráfica de Tendencia
             st.subheader("📈 Tendencia")
             df = pd.read_csv("clima_dataset.csv")
             df_zona = df[df['zona'] == zona].sort_values('fecha')
             st.line_chart(df_zona.set_index('fecha')['temperatura'], color="#58a6ff", height=300)
 
-            # 3. Resumen y Alertas (Pegado y pequeño)
-            # Usamos un div con estilo CSS para reducir el tamaño de letra y márgenes
+            # 3. Bloque de Resumen de Actividad (Pegado a la gráfica)
             st.markdown(f"""
-                <div style="margin-top: -20px;">
-                    <h3 style="font-size: 20px; margin-bottom: 5px;">📋 Resumen</h3>
-                    <p style="font-size: 14px; margin-top: 0px;">
-                        Análisis de los últimos <b>{stats['conteo']}</b> registros en <b>{zona}</b>.
+                <div style="margin-top: -25px; margin-bottom: 15px;">
+                    <p style="font-size: 15px; margin: 0;">
+                        📋 <b>Resumen de actividad:</b> Se han analizado los últimos <b>{stats['conteo']}</b> registros en la demarcación <b>{zona}</b>.
                     </p>
                 </div>
             """, unsafe_allow_html=True)
             
-            # Alerta compacta
+            # 4. Aviso Meteorológico (Texto exacto de la imagen)
             if stats['max_viento'] > 80:
-                st.warning(f"⚠️ **Aviso:** Vientos de {stats['max_viento']} km/h detectados.")
+                st.warning(f"⚠️ **Aviso Meteorológico:** Se han detectado ráfagas de viento de {stats['max_viento']} km/h en esta zona.")
         else:
             st.info("No hay datos para esta zona.")
 
