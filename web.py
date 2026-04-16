@@ -113,14 +113,14 @@ def main():
 
     gestor = datos_csv.GestorDatosClima()
 
-    # --- DASHBOARD (Diseño Integrado) ---
+    # --- DASHBOARD ---
     if opcion == "📈 Dashboard":
         st.header("📊 Análisis Estadístico")
         zona = st.selectbox("Seleccione Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
         stats = gestor.obtener_estadisticas_zona(zona)
 
         if stats:
-            # 1. Métricas (Fila superior)
+            # 1. Métricas superiores
             c1, c2, c3 = st.columns(3)
             c1.metric("Temperatura Media", f"{stats['media_temp']:.1f} °C")
             c2.metric("Viento Máximo", f"{stats['max_viento']} km/h")
@@ -134,20 +134,33 @@ def main():
             df_zona = df[df['zona'] == zona].sort_values('fecha')
             st.line_chart(df_zona.set_index('fecha')['temperatura'], color="#58a6ff", height=300)
 
-            # 3. Bloque de Resumen de Actividad (Pegado a la gráfica)
+            # 3. Avisos Meteorológicos Dinámicos
+            max_temp = df_zona['temperatura'].max()
+            min_temp = df_zona['temperatura'].min()
+            max_viento = df_zona['viento'].max()
+            min_hum = df_zona['humedad'].min()
+
+            if max_viento > 90:
+                st.error(f"⚠️ **Aviso Meteorológico:** Ráfagas elevadas de viento ({max_viento} km/h) detectadas.")
+            elif max_temp > 40:
+                st.error(f"🔥 **Aviso Meteorológico:** Ola de calor extrema detectada ({max_temp} °C).")
+            elif min_temp < 0:
+                st.info(f"❄️ **Aviso Meteorológico:** Temperaturas bajo cero detectadas ({min_temp} °C).")
+            elif min_hum < 20:
+                st.warning(f"🔥 **Aviso Meteorológico:** Riesgo extremo de incendio por baja humedad ({min_hum}%).")
+
+            # 4. Resumen de Actividad (Pie de página)
             st.markdown(f"""
-                <div style="margin-top: -25px; margin-bottom: 15px;">
-                    <p style="font-size: 15px; margin: 0;">
-                        📋 <b>Resumen de actividad:</b> Se han analizado los últimos <b>{stats['conteo']}</b> registros en la demarcación <b>{zona}</b>.
+                <div style="margin-top: 30px; border-top: 1px solid rgba(128,128,128,0.2); padding-top: 10px;">
+                    <p style="font-size: 14px; color: gray; text-align: left;">
+                        📋 <b>Resumen de actividad:</b> Análisis de los últimos <b>{stats['conteo']}</b> registros en la demarcación <b>{zona}</b>.
                     </p>
                 </div>
             """, unsafe_allow_html=True)
-            
-            # 4. Aviso Meteorológico (Texto exacto de la imagen)
-            if stats['max_viento'] > 80:
-                st.warning(f"⚠️ **Aviso Meteorológico:** Se han detectado ráfagas de viento de {stats['max_viento']} km/h en esta zona.")
+        
+        # --- AQUÍ ESTÁ EL ELSE QUE FALTABA ---
         else:
-            st.info("No hay datos para esta zona.")
+            st.info("ℹ️ No hay datos registrados para esta zona.")
 
 
         # --- PANTALLA: REGISTRO DE DATOS ---
