@@ -37,7 +37,7 @@ def menu_principal():
 
         elif opcion == "2":
             ##Definición zonas permitidas
-            zonas_validas = ["Norte", "Sur", "Centro", "Este", "Oeste"]
+            zonas_validas = ["Norte", "Sur", "Centro", "Este", "Oeste"] 
 
             print("\n--- 🔍 Consulta de Registros ---")
             print(f"Zonas disponibles: {', '.join(zonas_validas)}")
