@@ -13,159 +13,166 @@ import auth
 # --- 1. CONFIGURACIÓN DE PÁGINA ---
 st.set_page_config(page_title="SkyCast Municipal", page_icon="🌤️", layout="wide")
 
-# --- 2. PERSONALIZACIÓN DE DISEÑO (CSS DINÁMICO) ---
+# --- 2. PERSONALIZACIÓN DE DISEÑO (ESTILO DINÁMICO) ---
 def aplicar_estilos():
     st.markdown("""
         <style>
-            /* 1. Ocultar todos los iconos de la barra superior excepto los 3 puntos */
-            /* Buscamos el contenedor de acciones y lo eliminamos */
-            div[data-testid="stToolbarActions"] {
-                display: none !important;
-            }
+            /* Barra superior: Solo dejamos los 3 puntos */
+            div[data-testid="stToolbarActions"] { display: none !important; }
             
-            /* 2. Ajuste de la Sidebar */
-            [data-testid="stSidebar"] { width: 300px !important; }
+            /* Ajuste de Sidebar */
+            [data-testid="stSidebar"] { width: 320px !important; }
             
-            /* 3. Títulos en Azul SkyCast */
-            h1, h2, h3 { color: #58a6ff !important; }
+            /* Títulos en Azul SkyCast */
+            h1, h2, h3 { color: #58a6ff !important; font-family: 'Segoe UI', sans-serif; }
 
-            /* 4. Tarjetas de métricas */
+            /* Tarjetas de métricas (Diseño de la foto) */
             div[data-testid="stMetric"] {
                 border: 1px solid rgba(128, 128, 128, 0.3);
                 border-radius: 12px;
-                padding: 15px;
+                padding: 20px;
+                background-color: rgba(151, 166, 185, 0.05);
             }
             
-            /* 5. Ocultar el pie de página y la decoración superior innecesaria */
+            /* Ocultar footer */
             footer { visibility: hidden !important; }
-            header { background-color: rgba(0,0,0,0) !important; }
         </style>
     """, unsafe_allow_html=True)
 
-aplicar_estilos()
-
-# Inicializar el gestor de datos
-gestor = datos_csv.GestorDatosClima()
-
-# --- 3. LÓGICA DE AUTENTICACIÓN ---
-if 'conectado' not in st.session_state:
-    st.session_state.conectado = False
-
-if not st.session_state.conectado:
-    st.write("##") # Espacio superior inicial
+def mostrar_cabecera_login():
+    ruta_logo = "docs/skycast_logo_transparent.png"
     col1, col2, col3 = st.columns([1, 2, 1])
-    
     with col2:
-        # --- LOGO CENTRADO ---
-        ruta_logo = 'docs/skycast_logo_transparent.png'
         if os.path.exists(ruta_logo):
-            # Creamos sub-columnas para centrar el logo exactamente al medio
+            # Centramos el logo con sub-columnas
             c_izq, c_mid, c_der = st.columns([1, 2, 1])
             with c_mid:
                 st.image(ruta_logo, use_container_width=True)
+        st.markdown("<h1 style='text-align: center; color: #58a6ff;'>SkyCast Login</h1>", unsafe_allow_html=True)
+
+# --- 3. FUNCIÓN PRINCIPAL ---
+def main():
+    aplicar_estilos()
+
+    if 'autenticado' not in st.session_state:
+        st.session_state.autenticado = False
+
+    # --- PANTALLA DE ACCESO ---
+    if not st.session_state.autenticado:
+        mostrar_cabecera_login()
+        col_esp, col_form, col_esp2 = st.columns([1, 2, 1])
+
+        with col_form:
+            tab_login, tab_reg = st.tabs(["🔐 Iniciar Sesión", "👤 Crear Cuenta"])
+
+            with tab_login:
+                with st.form("l_form"):
+                    u = st.text_input("Usuario").lower().strip()
+                    p = st.text_input("Contraseña", type="password")
+                    if st.form_submit_button("Entrar al Sistema", use_container_width=True):
+                        db = auth._cargar_usuarios()
+                        if db.get(u) == auth._hash_password(p):
+                            st.session_state.autenticado = True
+                            st.session_state.usuario = u
+                            st.rerun()
+                        else:
+                            st.error("Credenciales incorrectas")
+
+            with tab_reg:
+                with st.form("r_form"):
+                    new_u = st.text_input("Nuevo Usuario").lower().strip()
+                    new_p = st.text_input("Nueva Contraseña", type="password")
+                    conf_p = st.text_input("Confirmar Contraseña", type="password")
+                    if st.form_submit_button("Registrar Usuario", use_container_width=True):
+                        db = auth._cargar_usuarios()
+                        if not new_u or len(new_p) < 4: st.warning("Datos insuficientes.")
+                        elif new_u in db: st.error("El usuario ya existe.")
+                        elif new_p != conf_p: st.error("Las contraseñas no coinciden.")
+                        else:
+                            with open("usuarios.csv", "a", newline="", encoding="utf-8") as f:
+                                escritor = csv.DictWriter(f, fieldnames=["usuario", "password_hash"])
+                                escritor.writerow({"usuario": new_u, "password_hash": auth._hash_password(new_p)})
+                            st.success("✅ Cuenta creada.")
+        return
+
+    # --- PANTALLA PRINCIPAL (SIDEBAR COMPACTA) ---
+    with st.sidebar:
+        ruta_logo = "docs/skycast_logo_transparent.png"
+        if os.path.exists(ruta_logo):
+            st.image(ruta_logo, use_container_width=True)
         
-        # --- TÍTULO ---
-        # Usamos HTML para asegurar que el texto esté centrado respecto al logo
-        st.markdown("<h1 style='text-align: center; color: #58a6ff; margin-top: -10px;'>SkyCast Login</h1>", unsafe_allow_html=True)
+        st.markdown(f"**Usuario:** {st.session_state.usuario.capitalize()}")
+        st.markdown('<hr style="margin: 8px 0px;">', unsafe_allow_html=True)
         
-        # --- FORMULARIO ---
-        with st.form("login_form"):
-            u = st.text_input("Usuario").lower().strip()
-            p = st.text_input("Contraseña", type="password")
-            # Centramos también el botón de envío
-            col_btn1, col_btn2 = st.columns([1, 1])
-            submit = st.form_submit_button("Acceder al Sistema")
+        opcion = st.radio("Navegación", ["📈 Dashboard", "📝 Registrar Datos", "🔍 Historial"])
+        
+        st.write("##") # Espacio antes del botón
+        if st.button("🚪 Cerrar Sesión", use_container_width=True, type="primary"):
+            st.session_state.autenticado = False
+            st.rerun()
+
+    gestor = datos_csv.GestorDatosClima()
+
+    # --- DASHBOARD (Diseño de la Foto) ---
+    if opcion == "📈 Dashboard":
+        st.header("📊 Análisis Estadístico")
+        zona = st.selectbox("Seleccione Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
+        stats = gestor.obtener_estadisticas_zona(zona)
+
+        if stats:
+            c1, c2, c3 = st.columns(3)
+            c1.metric("Temperatura Media", f"{stats['media_temp']:.1f} °C")
+            c2.metric("Viento Máximo", f"{stats['max_viento']} km/h")
+            c3.metric("Registros", stats['conteo'])
+
+            st.write("---")
             
-            if submit:
-                usuarios_db = auth._cargar_usuarios()
-                if usuarios_db.get(u) == auth._hash_password(p):
-                    st.session_state.conectado = True
-                    st.session_state.user = u
-                    st.rerun()
+            # Gráfico y Resumen en columnas (Como en la foto)
+            col_graf, col_res = st.columns([2, 1])
+            
+            with col_graf:
+                st.subheader("📈 Tendencia")
+                df = pd.read_csv("clima_dataset.csv")
+                df_zona = df[df['zona'] == zona].sort_values('fecha')
+                # st.line_chart permite zoom nativo con la rueda del ratón
+                st.line_chart(df_zona.set_index('fecha')['temperatura'], color="#58a6ff", height=350)
+            
+            with col_res:
+                st.subheader("📋 Resumen")
+                st.write(f"Mostrando los últimos **{stats['conteo']}** registros de la zona **{zona}**.")
+                if stats['max_viento'] > 80:
+                    st.warning("⚠️ Ráfagas de viento elevadas detectadas.")
+        else:
+            st.info("No hay datos para esta zona.")
+
+    # --- REGISTRO DE DATOS (Con punto decimal forzado) ---
+    elif opcion == "📝 Registrar Datos":
+        st.header("📝 Nuevo Registro")
+        with st.form("form_reg"):
+            col_a, col_b = st.columns(2)
+            f = col_a.date_input("Fecha", datetime.now())
+            z = col_b.selectbox("Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
+            
+            # Usamos format="%.1f" para asegurar que se vea el punto (.)
+            temp = st.number_input("Temperatura (°C)", value=20.0, format="%.1f")
+            hum = st.slider("Humedad (%)", 0, 100, 50)
+            vie = st.number_input("Viento (km/h)", value=0.0, format="%.1f")
+
+            if st.form_submit_button("Guardar Datos", use_container_width=True):
+                datos = {"fecha": str(f), "zona": z, "temperatura": temp, "humedad": hum, "viento": vie}
+                errores = validacion.validar_registro(datos)
+                if errores:
+                    for err in errores: st.error(err)
                 else:
-                    st.error("❌ Usuario o contraseña incorrectos")
-    st.stop()
+                    for aviso in alertas.evaluar_alertas(datos): st.warning(aviso)
+                    if gestor.guardar_en_csv(datos):
+                        st.success("✅ Datos guardados correctamente.")
 
-# --- 4. INTERFAZ PRINCIPAL ---
-# Cargamos el logo solo si el archivo existe en la carpeta
-with st.sidebar:
-    ruta_logo = 'docs/skycast_logo_transparent.png'
-    if os.path.exists(ruta_logo):
-        st.image(ruta_logo, use_container_width=True)
-    
-    # Eliminamos el st.title() y usamos markdown directo para reducir espacio
-    st.markdown(f"**Usuario:** {st.session_state.user.capitalize()}")
-    
-    # Reducimos el espacio del separador
-    st.markdown('<hr style="margin: 8px 0px;">', unsafe_allow_html=True)
-    
-    st.write("Navegación")
-    opcion = st.radio("", ["📊 Dashboard", "📝 Registrar Datos", "🔍 Historial", "🚪 Cerrar Sesión"], label_visibility="collapsed")
+    elif opcion == "🔍 Historial":
+        st.header("🔍 Consulta Histórica")
+        if os.path.exists("clima_dataset.csv"):
+            df_full = pd.read_csv("clima_dataset.csv")
+            st.dataframe(df_full.sort_values('fecha', ascending=False), use_container_width=True)
 
-if opcion == "🚪 Cerrar Sesión":
-    st.session_state.conectado = False
-    st.rerun()
-
-elif opcion == "📊 Dashboard":
-    st.title("🏛️ Panel de Control Climático")
-    zona = st.selectbox("Seleccione Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
-    
-    stats = gestor.obtener_estadisticas_zona(zona)
-    
-    if stats:
-        # 1. Métricas principales en una fila
-        c1, c2, c3 = st.columns(3)
-        c1.metric("Temperatura Media", f"{stats['media_temp']:.1f} °C")
-        c2.metric("Humedad Media", f"{stats['media_hum']:.1f} %")
-        c3.metric("Viento Máximo", f"{stats['max_viento']} km/h")
-        
-        st.write("---") # Línea separadora sutil
-        
-        # 2. Gráfico de tendencia más pequeño
-        # Usamos columnas para "encoger" el gráfico hacia el centro o un lado
-        col_grafico, col_info = st.columns([2, 1]) # El gráfico ocupa 2/3 y dejamos 1/3 libre
-        
-        with col_grafico:
-            st.subheader("📈 Tendencia")
-            df_zona = pd.DataFrame(gestor.consultar_por_zona(zona))
-            if not df_zona.empty:
-                # Ordenamos por fecha para que la línea tenga sentido
-                df_zona = df_zona.sort_values('fecha')
-                # Dibujamos el gráfico con una altura controlada (use_container_width por defecto)
-                st.line_chart(df_zona.set_index('fecha')['temperatura'], height=250)
-        
-        with col_info:
-            # Aprovechamos el espacio lateral para un resumen rápido o datos extra
-            st.subheader("📋 Resumen")
-            st.write(f"Mostrando los últimos **{len(df_zona)}** registros de la zona **{zona}**.")
-            if stats['max_viento'] > 50:
-                st.warning("⚠️ Ráfagas de viento elevadas detectadas en el periodo.")
-                
-    else:
-        st.info(f"No hay datos registrados para la zona {zona}.")
-
-elif opcion == "📝 Registrar Datos":
-    st.title("📝 Nueva Entrada")
-    with st.form("registro_datos"):
-        f = st.date_input("Fecha", datetime.now())
-        z = st.selectbox("Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
-        temp = st.number_input("Temperatura (°C)", value=20.0)
-        hum = st.slider("Humedad (%)", 0, 100, 50)
-        vie = st.number_input("Viento (km/h)", value=0.0)
-
-        if st.form_submit_button("Guardar Datos"):
-            datos = {"fecha": str(f), "zona": z, "temperatura": temp, "humedad": hum, "viento": vie}
-            errores = validacion.validar_registro(datos)
-            if errores:
-                for err in errores: st.error(err)
-            else:
-                avisos = alertas.evaluar_alertas(datos)
-                for aviso in avisos: st.warning(aviso)
-                if gestor.guardar_en_csv(datos):
-                    st.success("✅ Datos guardados correctamente.")
-
-elif opcion == "🔍 Historial":
-    st.header("🔍 Registro Histórico")
-    if os.path.exists("clima_dataset.csv"):
-        df = pd.read_csv("clima_dataset.csv")
-        st.dataframe(df, use_container_width=True)
+if __name__ == "__main__":
+    main()
