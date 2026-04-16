@@ -17,22 +17,21 @@ st.set_page_config(page_title="SkyCast Municipal", page_icon="🌤️", layout="
 def aplicar_estilos():
     st.markdown("""
         <style>
-            /* 1. Ajustamos el ancho de la sidebar */    
+            /* 1. Ajuste de ancho de la sidebar */    
             [data-testid="stSidebar"] { width: 300px !important; }
             
-            /* 2. Color azul para los títulos (se ve bien en claro y oscuro) */
+            /* 2. Solo cambiamos el color de los Títulos para dar identidad */
             h1, h2, h3 { color: #58a6ff !important; }
                 
-            /* 3. Estilo de las tarjetas de métricas mejorado */
-            /* Usamos un borde sutil para que se vea bien en ambos modos */
+            /* 3. Tarjetas de métricas: SIN COLOR DE FONDO */
+            /* Solo usamos un borde para que se vea el recuadro */
             div[data-testid="stMetric"] {
-                border: 1px solid #30363d;
+                border: 1px solid #808080;
                 border-radius: 10px;
                 padding: 15px;
-                background-color: rgba(151, 166, 185, 0.1); 
             }
 
-            /* 4. Ocultar menús innecesarios para un look más profesional */
+            /* 4. Limpieza de elementos de la interfaz */
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
