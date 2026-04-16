@@ -145,28 +145,42 @@ def main():
         else:
             st.info("No hay datos para esta zona.")
 
-    # --- REGISTRO DE DATOS (Con punto decimal forzado) ---
+        # --- PANTALLA: REGISTRO DE DATOS ---
     elif opcion == "📝 Registrar Datos":
         st.header("📝 Nuevo Registro")
-        with st.form("form_reg"):
+        
+        # 'clear_on_submit=True' vacía los campos automáticamente al dar clic en Guardar
+        with st.form("form_reg", clear_on_submit=True):
             col_a, col_b = st.columns(2)
             f = col_a.date_input("Fecha", datetime.now())
-            z = col_b.selectbox("Zona", ["Centro", "Norte", "Sur", "Este", "Oeste"])
             
-            # Usamos format="%.1f" para asegurar que se vea el punto (.)
-            temp = st.number_input("Temperatura (°C)", value=20.0, format="%.1f")
+            # Añadimos "Seleccione Zona" al principio de la lista
+            z = col_b.selectbox("Zona", ["Seleccione Zona", "Centro", "Norte", "Sur", "Este", "Oeste"])
+            
+            # Precision de 0.1 y forzado de punto decimal
+            temp = st.number_input("Temperatura (°C)", value=20.0, step=0.1, format="%.1f")
             hum = st.slider("Humedad (%)", 0, 100, 50)
-            vie = st.number_input("Viento (km/h)", value=0.0, format="%.1f")
+            
+            # Precision de 0.5 y forzado de punto decimal
+            vie = st.number_input("Viento (km/h)", value=0.0, step=0.5, format="%.1f")
 
-            if st.form_submit_button("Guardar Datos", use_container_width=True):
-                datos = {"fecha": str(f), "zona": z, "temperatura": temp, "humedad": hum, "viento": vie}
-                errores = validacion.validar_registro(datos)
-                if errores:
-                    for err in errores: st.error(err)
+            if st.form_submit_button("Guardar"):
+                if z == "Seleccione Zona":
+                    st.error("⚠️ Por favor, elige una zona antes de guardar.")
                 else:
-                    for aviso in alertas.evaluar_alertas(datos): st.warning(aviso)
-                    if gestor.guardar_en_csv(datos):
-                        st.success("✅ Datos guardados correctamente.")
+                    datos = {"fecha": str(f), "zona": z, "temperatura": temp, "humedad": hum, "viento": vie}
+                    
+                    # Tu lógica original de validación y guardado
+                    errores = validacion.validar_registro(datos)
+                    if errores:
+                        for err in errores: st.error(err)
+                    else:
+                        avisos = alertas.evaluar_alertas(datos)
+                        for aviso in avisos: st.warning(aviso)
+                        
+                        if gestor.guardar_en_csv(datos):
+                            st.success("✅ Datos guardados.")
+                            # Al usar clear_on_submit, los widgets se resetean solos aquí
 
     elif opcion == "🔍 Historial":
         st.header("🔍 Consulta Histórica")
