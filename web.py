@@ -137,10 +137,9 @@ def main():
             # 3. Resumen y Alertas (Pegado y pequeño)
             # Usamos un div con estilo CSS para reducir el tamaño de letra y márgenes
             st.markdown(f"""
-                <div style="margin-top: -40px;">
-                    <h3 style="font-size: 20px; margin-bottom: 5px;">📋 Resumen</h3>
-                    <p style="font-size: 14px; margin-top: 0px;">
-                        Análisis de los últimos <b>{stats['conteo']}</b> registros en <b>{zona}</b>.
+                <div style="margin-top: -40px; margin-bottom: 20px;">
+                    <p style="font-size: 15px; margin: 0;">
+                        📋 <b>Resumen de actividad:</b> Se han analizado los últimos <b>{stats['conteo']}</b> registros en la demarcación <b>{zona}</b>.
                     </p>
                 </div>
             """, unsafe_allow_html=True)
