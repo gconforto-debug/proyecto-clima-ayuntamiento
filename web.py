@@ -151,15 +151,22 @@ def main():
             max_viento = df_zona['viento'].max()
             min_hum = df_zona['humedad'].min()
 
-            if max_viento > 90:
-                st.error(f"⚠️ **Aviso Meteorológico:** Ráfagas elevadas de viento ({max_viento} km/h) detectadas.")
-            elif max_temp > 40:
-                st.error(f"🔥 **Aviso Meteorológico:** Ola de calor extrema detectada ({max_temp} °C).")
-            elif min_temp < 0:
-                st.info(f"❄️ **Aviso Meteorológico:** Temperaturas bajo cero detectadas ({min_temp} °C).")
-            elif min_hum < 20:
-                st.warning(f"🔥 **Aviso Meteorológico:** Riesgo extremo de incendio por baja humedad ({min_hum}%).")
-
+            if max_temp >= 40:
+                st.warning(f"🔥 **Aviso Meteorológico:** Calor extremo detectado ({max_temp}ºC). Riesgo nivel Rojo.")
+            
+            elif max_temp >= 35 and min_hum <= 30:
+                # Esta es la alerta específica para Madrid: Calor + Sequedad
+                st.warning(f"⚠️ **Riesgo de Incendio:** Combinación de calor ({max_temp}ºC) y aire seco ({min_hum}%).")
+            
+            elif max_viento >= 70:
+                st.warning(f"💨 **Aviso Meteorológico:** Rachas de viento peligrosas detectadas ({max_viento} km/h).")
+            
+            elif min_temp <= 0:
+                st.warning(f"❄️ **Aviso Meteorológico:** Temperaturas de congelación detectadas ({min_temp}ºC). Riesgo de hielo.")
+            
+            elif max_temp >= 35:
+                st.warning(f"🟠 **Aviso Meteorológico:** Temperaturas elevadas detectadas ({max_temp}ºC).")
+        
         else:
             st.info("ℹ️ No hay datos registrados para esta zona.")
 
