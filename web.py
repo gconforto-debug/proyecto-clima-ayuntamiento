@@ -137,7 +137,7 @@ def main():
             # 3. Resumen de actividad (Ahora va primero)
             # Quitamos la línea gris superior para que se pegue a la gráfica como antes
             st.markdown(f"""
-                <div style="margin-top: -25px; margin-bottom: 10px;">
+                <div style="margin-top: -55px; margin-bottom: 10px;">
                     <p style="font-size: 15px; margin: 0;">
                         📋 <b>Resumen de actividad:</b> Se han analizado los últimos <b>{stats['conteo']}</b> registros en la demarcación <b>{zona}</b>.
                     </p>
