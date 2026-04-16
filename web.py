@@ -134,7 +134,18 @@ def main():
             df_zona = df[df['zona'] == zona].sort_values('fecha')
             st.line_chart(df_zona.set_index('fecha')['temperatura'], color="#58a6ff", height=300)
 
-            # 3. Avisos Meteorológicos Dinámicos
+            # 3. Resumen de actividad (Ahora va primero)
+            # Quitamos la línea gris superior para que se pegue a la gráfica como antes
+            st.markdown(f"""
+                <div style="margin-top: -25px; margin-bottom: 10px;">
+                    <p style="font-size: 15px; margin: 0;">
+                        📋 <b>Resumen de actividad:</b> Se han analizado los últimos <b>{stats['conteo']}</b> registros en la demarcación <b>{zona}</b>.
+                    </p>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            # 4. Avisos Meteorológicos (Ahora van debajo del resumen)
+            # Usamos los datos dinámicos del CSV actualizado
             max_temp = df_zona['temperatura'].max()
             min_temp = df_zona['temperatura'].min()
             max_viento = df_zona['viento'].max()
@@ -149,16 +160,6 @@ def main():
             elif min_hum < 20:
                 st.warning(f"🔥 **Aviso Meteorológico:** Riesgo extremo de incendio por baja humedad ({min_hum}%).")
 
-            # 4. Resumen de Actividad (Pie de página)
-            st.markdown(f"""
-                <div style="margin-top: 30px; border-top: 1px solid rgba(128,128,128,0.2); padding-top: 10px;">
-                    <p style="font-size: 14px; color: gray; text-align: left;">
-                        📋 <b>Resumen de actividad:</b> Análisis de los últimos <b>{stats['conteo']}</b> registros en la demarcación <b>{zona}</b>.
-                    </p>
-                </div>
-            """, unsafe_allow_html=True)
-        
-        # --- AQUÍ ESTÁ EL ELSE QUE FALTABA ---
         else:
             st.info("ℹ️ No hay datos registrados para esta zona.")
 
