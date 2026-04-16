@@ -36,16 +36,29 @@ def menu_principal():
             gestor.guardar_en_csv(nuevo_dato)
 
         elif opcion == "2":
-            zona = input("\n¿Qué zona desea consultar? ").title()
-            # 3. Uso del método de la clase
-            resultados = gestor.consultar_por_zona(zona)
+            ##Definición zonas permitidas
+            zonas_validas = ["Norte", "Sur", "Centro", "Este", "Oeste"]
 
-            if not resultados:
-                print(f"\n⚠️ No se encontraron registros para la zona: {zona}")
+            print("\n--- 🔍 Consulta de Registros ---")
+            print(f"Zonas disponibles: {', '.join(zonas_validas)}")
+
+            zona = input("\n¿Qué zona desea consultar? ").title()
+            
+            #Validación por zona
+            if zona not in zonas_validas:
+                print(f"\n ❌ ERROR: La zona '{zona}' no es válida.")
+                print(f" Solo puede consultar: {', '.join(zonas_validas)}")
             else:
-                print(f"\n--- 📋 LISTADO DE DATOS: {zona.upper()} ---")
-                print(f"{'FECHA':<12} | {'TEMP':<6} | {'HUM':<6} | {'VIENTO':<6}")
-                print("-" * 45)
+                # 3. Uso del método de la clase
+                resultados = gestor.consultar_por_zona(zona)
+
+                if not resultados:
+                    print(f"\n⚠️ No se encontraron registros para la zona: {zona}")
+                else:
+                    print(f"\n--- 📋 LISTADO DE DATOS: {zona.upper()} ---")
+                    print(f"{'FECHA':<12} | {'TEMP':<6} | {'HUM':<6} | {'VIENTO':<6}")
+                    print("-" * 45)
+                    
                 # Como ahora devuelve un DataFrame o lista, iteramos:
                 for r in resultados:
                     print(f"{r['fecha']:<12} | {r['temperatura']:<6}ºC | {r['humedad']:<6}% | {r['viento']:<6}km/h")
