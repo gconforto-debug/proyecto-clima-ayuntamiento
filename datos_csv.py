@@ -62,30 +62,26 @@ class GestorDatosClima:
         
     # --- ESTADÍSTICAS (Nivel Medio) ---
     def obtener_estadisticas_zona(self, zona_buscada):
+        """Calcula medias y máximos de una zona específica usando Pandas."""
         if not os.path.exists(self.ARCHIVO):
             return None
         
-        try:
-            # Forzamos a que lea todo como strings primero para evitar errores de tipo
-            df = pd.read_csv(self.ARCHIVO, skipinitialspace=True)
-            
-            # Limpiamos nombres de columnas por si acaso
-            df.columns = df.columns.str.strip()
-            
-            # Filtro robusto
-            df_zona = df[df['zona'].str.strip().str.title() == zona_buscada.strip().title()]
-            
-            if df_zona.empty:
-                return None
-
-            return {
-                "media_temp": float(df_zona['temperatura'].mean()),
-                "max_temp": float(df_zona['temperatura'].max()),
-                "min_temp": float(df_zona['temperatura'].min()),
-                "media_hum": float(df_zona['humedad'].mean()),
-                "max_viento": float(df_zona['viento'].max()),
-                "conteo": int(len(df_zona))
-            }
-        except Exception as e:
-            print(f"Error estadístico: {e}")
+        # Se lee el CSV con Pandas para hacer magia estadística
+        df = pd.read_csv(self.ARCHIVO)
+        
+        # Se hace el filtro por zona
+        df_zona = df[df['zona'].str.title() == zona_buscada.strip().title()]
+        
+        if df_zona.empty:
             return None
+
+        # Cálculos estadísticos
+        stats = {
+            "media_temp": df_zona['temperatura'].mean(),
+            "max_temp": df_zona['temperatura'].max(),
+            "min_temp": df_zona['temperatura'].min(),
+            "media_hum": df_zona['humedad'].mean(),
+            "max_viento": df_zona['viento'].max(),
+            "conteo": len(df_zona)
+        }
+        return stats
