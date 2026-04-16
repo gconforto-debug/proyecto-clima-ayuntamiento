@@ -87,15 +87,34 @@ elif opcion == "📊 Dashboard":
     stats = gestor.obtener_estadisticas_zona(zona)
     
     if stats:
+        # 1. Métricas principales en una fila
         c1, c2, c3 = st.columns(3)
         c1.metric("Temperatura Media", f"{stats['media_temp']:.1f} °C")
         c2.metric("Humedad Media", f"{stats['media_hum']:.1f} %")
         c3.metric("Viento Máximo", f"{stats['max_viento']} km/h")
         
-        st.subheader("📈 Tendencia")
-        df_zona = pd.DataFrame(gestor.consultar_por_zona(zona))
-        if not df_zona.empty:
-            st.line_chart(df_zona.set_index('fecha')['temperatura'])
+        st.write("---") # Línea separadora sutil
+        
+        # 2. Gráfico de tendencia más pequeño
+        # Usamos columnas para "encoger" el gráfico hacia el centro o un lado
+        col_grafico, col_info = st.columns([2, 1]) # El gráfico ocupa 2/3 y dejamos 1/3 libre
+        
+        with col_grafico:
+            st.subheader("📈 Tendencia")
+            df_zona = pd.DataFrame(gestor.consultar_por_zona(zona))
+            if not df_zona.empty:
+                # Ordenamos por fecha para que la línea tenga sentido
+                df_zona = df_zona.sort_values('fecha')
+                # Dibujamos el gráfico con una altura controlada (use_container_width por defecto)
+                st.line_chart(df_zona.set_index('fecha')['temperatura'], height=250)
+        
+        with col_info:
+            # Aprovechamos el espacio lateral para un resumen rápido o datos extra
+            st.subheader("📋 Resumen")
+            st.write(f"Mostrando los últimos **{len(df_zona)}** registros de la zona **{zona}**.")
+            if stats['max_viento'] > 50:
+                st.warning("⚠️ Ráfagas de viento elevadas detectadas en el periodo.")
+                
     else:
         st.info(f"No hay datos registrados para la zona {zona}.")
 
