@@ -51,9 +51,7 @@ El proyecto SkyCast se adhiere al principio de **Responsabilidad Única**, estru
 - **`datos_csv.py`**: Implementado con la clase `GestorDatosClima`, esta capa de abstracción gestiona la persistencia y consulta de datos en el archivo CSV, encapsulando la lógica de acceso a datos. Capa de acceso a datos (Lectura/Escritura) y gestión de persistencia física en el dataset.
 - **`auth.py`**: Módulo de autenticación y gestión de usuarios, garantizando un control de acceso seguro al sistema.
 
-### Características del Sprint 1
-
-En esta primera fase, se ha centrado en la estabilidad del núcleo y la persistencia de datos:
+### Características
 
 - **Interfaz de Comandos (CLI):** Menú interactivo robusto con control de errores de navegación.
 - **Registro Validado:** Sistema de entrada que impide datos incoherentes.
