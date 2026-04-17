@@ -76,12 +76,30 @@ SkyCast se construye sobre una base sólida de excelencia técnica, seguridad y 
 - **Privacidad en Consola**: El uso de `getpass` asegura que las credenciales sean invisibles durante la entrada en la interfaz de línea de comandos.
 - **Acceso Dual**: Capacidad de login tradicional y prototipo de integración con Google (OAuth).
 
-### B. Calidad de Software y Testing
+## B. Validación de Datos
+
+- **Módulo `validacion.py`**: Centraliza toda la lógica de validación del sistema, asegurando que los datos introducidos por el usuario sean correctos antes de ser procesados o almacenados.
+
+- **Validación de Tipos de Datos**: Comprobación de que los valores introducidos en temperatura, humedad y velocidad del viento sean numéricos, evitando errores durante la ejecución del programa.
+
+- **Validación de Fechas**: Uso de `datetime` para garantizar que las fechas introducidas:
+  - Tienen el formato correcto (`YYYY-MM-DD`)
+  - Son fechas válidas
+  - No son fechas futuras respecto al día actual
+
+- **Mensajes de Error Específicos**: Mejora de los mensajes de error para indicar claramente el problema (formato incorrecto, valor no numérico, fecha inválida, etc.), facilitando la interacción del usuario con la aplicación.
+
+- **Validación de Zonas**: Verificación de que la zona introducida sea válida dentro del sistema, evitando registros inconsistentes.
+
+- **Control del Flujo de Datos**: El sistema no permite continuar con el registro hasta que todos los datos sean válidos, asegurando la integridad del dataset.
+
+
+### C. Calidad de Software y Testing
 
 - **Tests Unitarios con `pytest`**: La suite de pruebas automatizadas en la carpeta `/tests` garantiza la fiabilidad del sistema. Esto incluye la validación de la lógica de exclusión de alertas en `alertas.py`, asegurando que los cambios no introduzcan regresiones y que los umbrales críticos funcionen como se espera.
 - **Integración Continua**: Las pruebas automatizadas son un pilar para mantener la estabilidad del sistema a medida que evoluciona.
 
-### C. Análisis de Datos Avanzado
+### D. Análisis de Datos Avanzado
 
 - **Integración de `pandas`**: La librería líder en ciencia de datos se utiliza para el procesamiento y análisis eficiente del historial climático.
 - **Implementación OOP**: Migración de funciones aisladas a una arquitectura basada en clases mediante el módulo `datos_csv.py`. La clase `GestorDatosClima` centraliza el manejo del dataset, mejorando el encapsulamiento y facilitando el mantenimiento del código. Genera resúmenes estadísticos que incluyen:
@@ -90,7 +108,7 @@ SkyCast se construye sobre una base sólida de excelencia técnica, seguridad y 
   - 📊 Conteo de registros para asegurar la representatividad de la muestra.
 - **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo avanzado de excepciones, asegurando que la aplicación sea estable incluso ante archivos con formatos inconsistentes.
 
-### D. Gestión de Configuración y Repositorio
+### E. Gestión de Configuración y Repositorio
 
 - **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas, garantizando que los archivos CSV críticos no se corrompan durante la integración de ramas.
 - **Uso de `.gitignore`**: Se excluyen los archivos `*.csv` mediante la regla `*.csv` para evitar conflictos de fusión (_merge conflicts_) y asegurar que cada desarrollador trabaje con sus propios datos de prueba.
