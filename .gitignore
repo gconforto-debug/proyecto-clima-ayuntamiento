@@ -212,3 +212,5 @@ __marimo__/
 
 # Datos generados por pruebas o ejecuciones locales 
 *.csv
+!clima_dataset.csv
+!usuarios.csv

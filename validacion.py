@@ -32,9 +32,12 @@ def validar_registro(registro):
         errores.append("Fecha vacía")
     else:
         try:
-            datetime.strptime(fecha, "%Y-%m-%d")
+            fecha_convertida = datetime.strptime(fecha, "%Y-%m-%d").date()
+            fecha_hoy = datetime.today().date()   
+            if fecha_convertida > fecha_hoy:
+                errores.append("Fecha no válida. No se permiten fechas futuras.")
         except ValueError:
-            errores.append("Fecha incorrecta. Usa formato YYYY-MM-DD (ej: 2026-11-13) y comprueba que la fecha corresponda al día de hoy.")
+            errores.append("Fecha incorrecta. Usa formato YYYY-MM-DD (ej: 2026-11-13)")
 
     # VALIDACIÓN DE ZONA
     if zona == "":
